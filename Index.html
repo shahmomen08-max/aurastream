@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AuraStream - Next-Gen Offline & Streaming Hub</title>
+    <style>
+        :root {
+            --bg-color: #090d16;
+            --card-bg: #111827;
+            --accent-color: #38bdf8;
+            --accent-glow: rgba(56, 189, 248, 0.3);
+            --text-main: #ffffff;
+            --text-sub: #9ca3af;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            margin: 0;
+            padding-bottom: 75px;
+        }
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 14px 18px;
+            background: var(--card-bg);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            border-bottom: 1px solid #1f2937;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+        }
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .logo-icon {
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, #38bdf8, #2563eb);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: #fff;
+            box-shadow: 0 0 12px var(--accent-glow);
+            font-size: 16px;
+        }
+        .logo-text {
+            font-size: 20px;
+            font-weight: 800;
+            letter-spacing: 0.5px;
+            background: linear-gradient(90deg, #38bdf8, #818cf8);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .status-pill {
+            font-size: 11px;
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-weight: bold;
+        }
+        .online { background: rgba(74, 222, 128, 0.15); color: #4ade80; border: 1px solid rgba(74, 222, 128, 0.3); }
+        .offline { background: rgba(248, 113, 113, 0.15); color: #f87171; border: 1px solid rgba(248, 113, 113, 0.3); }
+
+        .login-icon-btn {
+            background: #1f2937;
+            border: 1px solid #374151;
+            color: #38bdf8;
+            padding: 6px 12px;
+            border-radius: 8px;
+            font-size: 12px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .tab-content { display: none; padding: 15px; }
+        .tab-content.active { display: block; }
+
+        /* Video Feed */
+        .video-card {
+            background: var(--card-bg);
+            border-radius: 14px;
+            overflow: hidden;
+            margin-bottom: 18px;
+            border: 1px solid #1f2937;
+            box-shadow: 0 6px 15px rgba(0,0,0,0.4);
+        }
+        .video-player-box {
+            width: 100%;
+            height: 200px;
+            background: #000;
+            position: relative;
+        }
+        .video-player-box iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+        .video-info { padding: 14px; }
+        .video-title { font-size: 15px; font-weight: 600; margin-bottom: 6px; color: #f3f4f6; }
+        .video-details { font-size: 12px; color: var(--text-sub); }
+
+        /* Shorts Container */
+        .shorts-container { display: flex; flex-direction: column; gap: 15px; }
+        .short-item {
+            background: var(--card-bg);
+            height: 420px;
+            border-radius: 14px;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            position: relative;
+            border: 1px solid #1f2937;
+            overflow: hidden;
+        }
+        .short-item iframe {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%; z-index: 1; border: none;
+        }
+        .short-overlay {
+            position: relative;
+            z-index: 2;
+            background: linear-gradient(transparent, rgba(0,0,0,0.85));
+            padding: 15px;
+            margin-top: auto;
+        }
+
+        /* Ad Banner */
+        .ad-banner {
+            background: linear-gradient(135deg, #1e293b, #0f172a);
+            border: 1px dashed var(--accent-color);
+            padding: 12px;
+            border-radius: 10px;
+            text-align: center;
+            font-size: 12px;
+            color: #38bdf8;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+
+        /* Vault Box */
+        .vault-box {
+            background: #111827;
+            padding: 16px;
+            border-radius: 10px;
+            border: 1px dashed #374151;
+            margin-bottom: 15px;
+        }
+        .vault-btn {
+            background: linear-gradient(135deg, #38bdf8, #0284c7);
+            color: #090d16;
+            border: none;
+            padding: 12px 14px;
+            border-radius: 8px;
+            font-weight: bold;
+            cursor: pointer;
+            width: 100%;
+            font-size: 14px;
+            box-shadow: 0 4px 12px var(--accent-glow);
+        }
+
+        /* Modal Login */
+        .modal-bg {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.8);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+        }
+        .modal-card {
+            background: #111827;
+            padding: 25px;
+            border-radius: 16px;
+            width: 85%;
+            max-width: 320px;
+            border: 1px solid #1f2937;
+            text-align: center;
+        }
+        .modal-card h3 { margin-top: 0; color: #38bdf8; }
+        .modal-input {
+            width: 100%; padding: 10px; margin: 8px 0;
+            background: #090d16; border: 1px solid #374151;
+            color: #fff; border-radius: 8px; box-sizing: border-box;
+        }
+        .modal-btn {
+            background: #38bdf8; color: #090d16; border: none;
+            padding: 10px; width: 100%; border-radius: 8px; font-weight: bold;
+            cursor: pointer; margin-top: 10px;
+        }
+        .close-modal {
+            background: none; border: none; color: #9ca3af;
+            margin-top: 10px; cursor: pointer; font-size: 12px;
+        }
+
+        /* Bottom Nav */
+        nav {
+            position: fixed;
+            bottom: 0; left: 0; width: 100%;
+            background: var(--card-bg);
+            display: flex;
+            justify-content: space-around;
+            padding: 10px 0;
+            border-top: 1px solid #1f2937;
+            z-index: 1000;
+        }
+        nav button {
+            background: none; border: none; color: var(--text-sub);
+            font-size: 12px; cursor: pointer; display: flex; flex-direction: column; align-items: center; gap: 4px;
+        }
+        nav button.active { color: var(--accent-color); font-weight: bold; }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="brand">
+            <div class="logo-icon">AS</div>
+            <div class="logo-text">AuraStream</div>
+        </div>
+        <div class="header-right">
+            <div id="netStatus" class="status-pill online">Online</div>
+            <button class="login-icon-btn" onclick="openLogin()">👤 Login</button>
+        </div>
+    </header>
+
+    <!-- LOGIN MODAL -->
+    <div id="loginModal" class="modal-bg">
+        <div class="modal-card">
+            <h3>AuraStream Login</h3>
+            <p style="font-size: 12px; color: #9ca3af;">Apne account mein sign in karein.</p>
+            <input type="text" id="usernameInput" class="modal-input" placeholder="Username">
+            <input type="password" id="passwordInput" class="modal-input" placeholder="Password">
+            <button class="modal-btn" onclick="handleLogin()">Sign In</button>
+            <br>
+            <button class="close-modal" onclick="closeLogin()">Cancel</button>
+        </div>
+    </div>
+
+    <!-- TAB 1: HOME FEED -->
+    <div id="homeTab" class="tab-content active">
+        <div class="ad-banner">📢 Sponsored Ad Space (Monetization Active)</div>
+        <h3 style="margin-top:0; font-size:16px;">Trending Stream Feed</h3>
+        <div id="feedList"></div>
+    </div>
+
+    <!-- TAB 2: SHORTS -->
+    <div id="shortsTab" class="tab-content">
+        <h3 style="margin-top:0; font-size:16px;">Aura Shorts</h3>
+        <div class="shorts-container" id="shortsList"></div>
+    </div>
+
+    <!-- TAB 3: OFFLINE VAULT -->
+    <div id="vaultTab" class="tab-content">
+        <h3 style="margin-top:0; font-size:16px;">Offline Vault Backup</h3>
+        <div class="vault-box">
+            <p style="font-size: 13px; color: #9ca3af; margin-top:0;">Active connection ke doran cache secure kiya jata hai taake light jane par backup mil sake.</p>
+            <div id="savedDataDisplay" style="font-size: 13px; color: #38bdf8; word-break: break-all;">No active vault cache found.</div>
+        </div>
+        <button class="vault-btn" onclick="syncVault()">📥 Sync & Secure Vault Data</button>
+    </div>
+
+    <!-- NAVIGATION -->
+    <nav>
+        <button onclick="switchTab('homeTab', this)" class="active">🏠 Home</button>
+        <button onclick="switchTab('shortsTab', this)">⚡ Shorts</button>
+        <button onclick="switchTab('vaultTab', this)">🛡️ Vault</button>
+    </nav>
+
+    <script>
+        const videos = [
+            { id: "jfKfPfyJRdk", title: "Lofi Hip Hop Radio - Beats to Study/Relax to", channel: "Lofi Girl" },
+            { id: "5qap5aO4i9A", title: "Chill Coding Synthwave Radio", channel: "Synthwave Boy" }
+        ];
+
+        const shorts = [
+            { id: "dQw4w9WgXcQ", title: "Quick Tech Concept #shorts" }
+        ];
+
+        function loadFeed() {
+            const feedList = document.getElementById('feedList');
+            feedList.innerHTML = videos.map(v => `
+                <div class="video-card">
+                    <div class="video-player-box">
+                        <iframe src="https://www.youtube.com/embed/${v.id}" allowfullscreen></iframe>
+                    </div>
+                    <div class="video-info">
+                        <div class="video-title">${v.title}</div>
+                        <div class="video-details">${v.channel}</div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function loadShorts() {
+            const shortsList = document.getElementById('shortsList');
+            shortsList.innerHTML = shorts.map(s => `
+                <div class="short-item">
+                    <iframe src="https://www.youtube.com/embed/${s.id}?autoplay=0&mute=1" allowfullscreen></iframe>
+                    <div class="short-overlay">
+                        <div style="font-weight: bold; font-size: 14px; color:#fff;">${s.title}</div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function switchTab(tabId, btnElement) {
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+            document.querySelectorAll('nav button').forEach(el => el.classList.remove('active'));
+            document.getElementById(tabId).classList.add('active');
+            btnElement.classList.add('active');
+        }
+
+        function openLogin() {
+            document.getElementById('loginModal').style.display = 'flex';
+        }
+
+        function closeLogin() {
+            document.getElementById('loginModal').style.display = 'none';
+        }
+
+        function handleLogin() {
+            const user = document.getElementById('usernameInput').value;
+            if(user) {
+                alert("Welcome back, " + user + "!");
+                document.querySelector('.login-icon-btn').innerText = "👤 " + user;
+                closeLogin();
+            } else {
+                alert("Please enter username!");
+            }
+        }
+
+        function updateNetwork() {
+            const statusEl = document.getElementById('netStatus');
+            if (navigator.onLine) {
+                statusEl.className = "status-pill online";
+                statusEl.innerText = "Online";
+            } else {
+                statusEl.className = "status-pill offline";
+                statusEl.innerText = "Vault Active";
+                loadFromVault();
+            }
+        }
+
+        function syncVault() {
+            if (!navigator.onLine) {
+                alert("Aap offline hain! Sync karne ke liye internet zaroori hai.");
+                return;
+            }
+            const cacheData = "AuraStream Backup Package saved at " + new Date().toLocaleTimeString();
+            localStorage.setItem('aurastream_store', cacheData);
+            document.getElementById('savedDataDisplay').innerText = "Successfully Secured: " + cacheData;
+            alert("Vault data successfully saved!");
+        }
+
+        function loadFromVault() {
+            const saved = localStorage.getItem('aurastream_store');
+            if (saved) {
+                document.getElementById('savedDataDisplay').innerText = "[Running from Vault] " + saved;
+            } else {
+                document.getElementById('savedDataDisplay').innerText = "Vault is empty.";
+            }
+        }
+
+        window.addEventListener('online', updateNetwork);
+        window.addEventListener('offline', updateNetwork);
+
+        window.onload = () => {
+            loadFeed();
+            loadShorts();
+            updateNetwork();
+            const existing = localStorage.getItem('aurastream_store');
+            if (existing) document.getElementById('savedDataDisplay').innerText = existing;
+        };
+    </script>
+</body>
+      </html>
+  
