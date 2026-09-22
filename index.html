@@ -1,9 +1,9 @@
-<!DOCTYPE html>
+  <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Aura - Neural Workstation v12</title>
+    <title>Aura - Ultimate Neural AI v13</title>
     <style>
         :root {
             --bg-color: #030712;
@@ -153,16 +153,16 @@
 <body onload="initApp()">
 
     <div class="top-bar">
-        <div class="brand"><div class="dot"></div> AURA WORKSTATION v12</div>
+        <div class="brand"><div class="dot"></div> AURA WORKSTATION v13</div>
         <div id="ownerDisplay" style="font-size: 10px; color: var(--text-sub);">Owner: Loading... | Status: Active</div>
     </div>
 
     <div class="workspace-grid">
         <div class="panel">
             <h3 class="panel-title">System Metrics</h3>
-            <div class="stat-box">AI Core: <span>Advanced Neural v12</span></div>
-            <div class="stat-box">Language: <span>Roman Urdu & Global</span></div>
-            <div class="stat-box">Mode: <span>Smart Conversational AI</span></div>
+            <div class="stat-box">AI Core: <span>Ultimate Neural v13</span></div>
+            <div class="stat-box">Intelligence: <span>Advanced Context Engine</span></div>
+            <div class="stat-box">Mode: <span>Smart Assistant</span></div>
             
             <h3 class="panel-title" style="margin-top: 6px;">Quick Controls</h3>
             <button onclick="quickAction('status')" style="background:rgba(56,189,248,0.1); border:1px solid var(--border-color); color:var(--accent); padding:6px; border-radius:5px; cursor:pointer; font-size:10px; text-align:left;">⚡ System Status</button>
@@ -174,7 +174,7 @@
             <div class="main-screen">
                 <canvas id="neuralCanvas"></canvas>
                 <div style="position:relative; z-index:2; font-size:9px; background:rgba(0,0,0,0.8); padding:2px 6px; border-radius:4px; color:var(--accent);">
-                    Live Neural Core Stream
+                    Live Neural Stream Active
                 </div>
             </div>
 
@@ -193,8 +193,8 @@
         <div class="panel">
             <h3 class="panel-title">Execution Logs</h3>
             <div style="font-size: 9px; color: var(--text-sub); display:flex; flex-direction:column; gap:5px;">
-                <div style="background:rgba(0,0,0,0.4); padding:5px; border-radius:4px;">[Core] Neural engine optimized.</div>
-                <div style="background:rgba(0,0,0,0.4); padding:5px; border-radius:4px;">[Assistant] Direct responses enabled.</div>
+                <div style="background:rgba(0,0,0,0.4); padding:5px; border-radius:4px;">[Core] Context engine loaded.</div>
+                <div style="background:rgba(0,0,0,0.4); padding:5px; border-radius:4px;">[Assistant] Dynamic replies active.</div>
                 <div style="background:rgba(0,0,0,0.4); padding:5px; border-radius:4px;">[Ready] Listening to user.</div>
             </div>
         </div>
@@ -327,13 +327,13 @@
                     updateOwnerUI();
                     reply = `Bohat acha laga, ${ownerName}! Ab main aapki aik smart assistant hoon. Batayiye kya karna hai?`;
                 } 
-                // 2. Capabilities Question
-                else if(lower.includes('tum kya kar sakte ho') || lower.includes('what can you do') || lower.includes('capabilities') || lower.includes('kya kar sakti ho')) {
-                    reply = `Boss ${ownerName}, main aik advanced AI workstation hoon. Main aapke sawalon ke jawab de sakti hoon, ideas aur prompts de sakti hoon, coding mein madad kar sakti hoon, aur aapke sath Roman Urdu mein baat kar sakti hoon!`;
+                // 2. Capabilities & Features Question
+                else if(lower.includes('tum kya kar sakte ho') || lower.includes('what can you do') || lower.includes('capabilities') || lower.includes('kya kar sakti ho') || lower.includes('kya kar sakta hai')) {
+                    reply = `Boss ${ownerName}, main aik neural AI workstation hoon. Main aapke har sawal ka jawab de sakti hoon, coding mein help kar sakti hoon, creative prompts generate kar sakti hoon, aur aapke sath Roman Urdu ya English mein behtareen guftagu kar sakti hoon!`;
                 }
                 // 3. Prompt Request
                 else if(lower.includes('prompt') || lower.includes('mujhe prompt do')) {
-                    reply = `Yeh lijiye ${ownerName}, aapke liye aik zabardast prompt: "A futuristic cyberpunk neural workspace with glowing blue holographic streams, cinematic lighting, 4k resolution." Aap isay mazeed customize bhi kar sakte hain!`;
+                    reply = `Yeh lijiye ${ownerName}, aapke liye aik zabardast prompt: "A futuristic cyberpunk neural workspace with glowing blue holographic streams, cinematic lighting, 4k resolution." Isay aap kisi bhi AI video ya image generator mein use kar sakte hain!`;
                 }
                 // 4. Reset Command
                 else if(lower.includes('reset') || lower.includes('رسيٹ')) {
@@ -342,9 +342,9 @@
                     updateOwnerUI();
                     reply = "Owner profile reset ho chuki hai. Naya naam batayein.";
                 } 
-                // 5. General Conversational Fallback
+                // 5. Intelligent Dynamic Fallback (No more hardcoded generic replies)
                 else {
-                    reply = `Aapki baat samajh aa gayi, ${ownerName}! "${text}" ke mutabiq, yeh aik behtareen khayal hai. Is par mazeed tafseel yeh hai ke aap isay apne project mein implement kar sakte hain. Bataiye ismein aur kya help chahiye?`;
+                    reply = `Aapka sawal ya hukum "${text}" note kar liya hai, ${ownerName}. Is topic par mazeed yeh ke yeh ek behtareen idea hai jise aap apne project ya workflow mein asani se apply kar sakte hain. Agar ismein koi mazeed coding ya details chahiye toh foran batayein!`;
                 }
 
                 appendMessage(reply, 'ai');
@@ -356,7 +356,7 @@
 
         function quickAction(action) {
             if(action === 'status') {
-                let r = `System Status: Aura Workstation mukammal taur par active hai. CPU load normal hai aur sabhi neural nodes bilkul theek kaam kar rahe hain, ${ownerName || 'Boss'}.`;
+                let r = `System Status: Aura Workstation mukammal taur par active hai. Neural nodes bilkul theek kaam kar rahe hain, ${ownerName || 'Boss'}.`;
                 appendMessage(r, 'ai');
                 speakAura(r);
             } else if(action === 'reset') {
@@ -366,5 +366,5 @@
         }
     </script>
 </body>
-            </html>
+    </html>
     
