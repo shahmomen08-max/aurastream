@@ -1,4 +1,4 @@
-     <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -69,7 +69,6 @@
         }
         .stat-box span { color: var(--accent); font-weight: bold; }
 
-        /* Bada aur Behtareen Neural Display Screen */
         .main-screen {
             height: 260px;
             background: #010409;
@@ -163,7 +162,7 @@
         <div class="panel">
             <h3 class="panel-title">System Metrics</h3>
             <div class="stat-box">AI Status: <span>Online & Authorized</span></div>
-            <div class="stat-box">Multi-Language: <span>Roman Urdu & Global Active</span></div>
+            <div class="stat-box">Multi-Language: <span>Urdu/Roman Active</span></div>
             <div class="stat-box">Direct Actions: <span>Calls & Messaging Active</span></div>
             
             <h3 class="panel-title" style="margin-top: 6px;">Owner Quick Tools</h3>
@@ -198,7 +197,7 @@
             <h3 class="panel-title">Execution Logs</h3>
             <div style="font-size: 9px; color: var(--text-sub); display:flex; flex-direction:column; gap:5px;">
                 <div style="background:rgba(0,0,0,0.4); padding:5px; border-radius:4px;">[Auth] Owner override verified.</div>
-                <div style="background:rgba(0,0,0,0.4); padding:5px; border-radius:4px;">[Voice] One-tap Roman Urdu engine synced.</div>
+                <div style="background:rgba(0,0,0,0.4); padding:5px; border-radius:4px;">[Voice] Universal language bridge active.</div>
                 <div style="background:rgba(0,0,0,0.4); padding:5px; border-radius:4px;">[Ready] Awaiting command.</div>
             </div>
         </div>
@@ -263,7 +262,7 @@
             if('speechSynthesis' in window) {
                 window.speechSynthesis.cancel();
                 let utterance = new SpeechSynthesisUtterance(text);
-                utterance.lang = 'ur-PK'; // Roman Urdu / Urdu support
+                utterance.lang = 'ur-PK';
                 utterance.rate = 1.0;
                 window.speechSynthesis.speak(utterance);
             }
@@ -283,7 +282,7 @@
                 return;
             }
             recognition = new SpeechRec();
-            recognition.lang = 'ur-PK'; // Set to regional language support
+            recognition.lang = 'ur-PK';
             recognition.interimResults = false;
             
             recognition.onstart = () => {
@@ -323,34 +322,38 @@
                 let reply = "";
                 let lower = text.toLowerCase();
 
+                // Check if owner name is not set yet (Handles both English and Urdu/Roman input)
                 if (!ownerName) {
-                    ownerName = text.replace(/my name is|mera naam hai|mera naam|i am/gi, '').trim();
+                    // Clean up common prefixes from input
+                    ownerName = text.replace(/my name is|mera naam hai|mera naam|i am|mera|naam|hai|ميرا|نام|ہے/gi, '').trim();
                     if(ownerName.length === 0) ownerName = text;
                     localStorage.setItem('aura_owner_name', ownerName);
                     updateOwnerUI();
                     reply = `Bohat acha laga, ${ownerName}! Ab aapki har authority mere paas hai. Main kya karun?`;
                 } 
-                else if(lower.includes('call') || lower.includes('lagao') || lower.includes('karo')) {
+                // Call execution command
+                else if(lower.includes('call') || lower.includes('lagao') || lower.includes('karo') || lower.includes('كال') || lower.includes('فون')) {
                     reply = `Aapka hukum sar aankhon par, ${ownerName}! Call connect ki ja rahi hai...`;
                     setTimeout(() => {
                         window.location.href = `tel:+923000000000`;
                     }, 1000);
                 } 
-                else if(lower.includes('message') || lower.includes('sms') || lower.includes('whatsapp') || lower.includes('bhejo')) {
+                // Message / WhatsApp execution command
+                else if(lower.includes('message') || lower.includes('sms') || lower.includes('whatsapp') || lower.includes('bhejo') || lower.includes('ميسج') || lower.includes('واٹس ایپ')) {
                     reply = `Boss ${ownerName}, maine message taiyar kar liya hai: "${text}". Kya yeh bilkul theek hai ya recheck kar lein?`;
                     setTimeout(() => {
                         let encodedMsg = encodeURIComponent(text);
                         window.open(`https://wa.me/?text=${encodedMsg}`, '_blank');
                     }, 1500);
                 } 
-                else if(lower.includes('reset')) {
+                else if(lower.includes('reset') || lower.includes('رسيٹ')) {
                     localStorage.removeItem('aura_owner_name');
                     ownerName = null;
                     updateOwnerUI();
                     reply = "Owner profile reset ho chuki hai. Naya naam batayein.";
                 } 
                 else {
-                    reply = `Aapka hukum sar aankhon par, ${ownerName}! Is instruction par amal jari hai: "${text}".`;
+                    reply = `Aapka hukum sar aankhon par, ${ownerName}! Is instruction par foran amal kiya ja raha hai: "${text}".`;
                 }
 
                 appendMessage(reply, 'ai');
@@ -372,5 +375,5 @@
         }
     </script>
 </body>
-</html>
-                                           
+     </html>
+             
