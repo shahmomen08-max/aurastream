@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Aura - True Dost AI</title>
+    <title>Aura - Continuous Dost AI v17</title>
     <style>
         :root {
             --bg-color: #030712;
@@ -153,19 +153,19 @@
 <body onload="initApp()">
 
     <div class="top-bar">
-        <div class="brand"><div class="dot"></div> AURA FRIEND CHAT</div>
-        <div id="ownerDisplay" style="font-size: 10px; color: var(--text-sub);">Dost: Ready | Mode: Chill</div>
+        <div class="brand"><div class="dot"></div> AURA CONTINUOUS v17</div>
+        <div id="ownerDisplay" style="font-size: 10px; color: var(--text-sub);">Dost: Ready | Mic: Auto-Active</div>
     </div>
 
     <div class="workspace-grid">
         <div class="panel">
             <h3 class="panel-title">Vibe Status</h3>
-            <div class="stat-box">Mood: <span>Friendly & Chill</span></div>
-            <div class="stat-box">Talk Style: <span>Jaise Dost Se Baat Ho</span></div>
-            <div class="stat-box">Task Mode: <span>Off (Only Chat)</span></div>
+            <div class="stat-box">Mic Mode: <span id="micStatusText" style="color:#22c55e;">Auto Continuous</span></div>
+            <div class="stat-box">Talk Style: <span>Dostana Guftagu</span></div>
             
             <h3 class="panel-title" style="margin-top: 6px;">Options</h3>
-            <button onclick="quickAction('reset')" style="background:rgba(239,68,68,0.1); border:1px solid rgba(239,68,68,0.3); color:#ef4444; padding:6px; border-radius:5px; cursor:pointer; font-size:10px; text-align:left;">🔄 Naye Siray Se Baat Shuru Karo</button>
+            <button onclick="toggleContinuousMic()" id="toggleMicModeBtn" style="background:rgba(34,197,94,0.2); border:1px solid #22c55e; color:#22c55e; padding:6px; border-radius:5px; cursor:pointer; font-size:10px; text-align:left;">🎙️ Stop/Start Auto-Mic</button>
+            <button onclick="quickAction('reset')" style="background:rgba(239,68,68,0.1); border:1px solid rgba(239,68,68,0.3); color:#ef4444; padding:6px; border-radius:5px; cursor:pointer; font-size:10px; text-align:left; margin-top:4px;">🔄 Naye Siray Se Shuru Karo</button>
         </div>
 
         <div class="panel">
@@ -173,7 +173,7 @@
             <div class="main-screen">
                 <canvas id="neuralCanvas"></canvas>
                 <div style="position:relative; z-index:2; font-size:9px; background:rgba(0,0,0,0.8); padding:2px 6px; border-radius:4px; color:var(--accent);">
-                    Aura Dost Chat Screen
+                    Continuous Listening Active
                 </div>
             </div>
 
@@ -181,10 +181,10 @@
             <div class="chat-container" id="chatStream"></div>
 
             <div class="control-panel">
-                <button id="micBtn" class="mic-btn" onclick="toggleMic()" title="Bolne ke liye dabayein">
+                <button id="micBtn" class="mic-btn" onclick="manualTriggerMic()" title="Mic on/off">
                     <svg viewBox="0 0 24 24"><path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z"/><path d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"/></svg>
                 </button>
-                <input type="text" id="userInput" placeholder="Yahan dost ki tarah kuch bhi likho..." onkeypress="handleKey(event)">
+                <input type="text" id="userInput" placeholder="Yahan likho ya mic on rakho..." onkeypress="handleKey(event)">
                 <button class="run-btn" onclick="executeCommand()">Bhejo</button>
             </div>
         </div>
@@ -192,33 +192,36 @@
         <div class="panel">
             <h3 class="panel-title">Baat-Cheet Logs</h3>
             <div style="font-size: 9px; color: var(--text-sub); display:flex; flex-direction:column; gap:5px;">
-                <div style="background:rgba(0,0,0,0.4); padding:5px; border-radius:4px;">[Chat] No task tension.</div>
-                <div style="background:rgba(0,0,0,0.4); padding:5px; border-radius:4px;">[Dost] Ready to listen to anything.</div>
+                <div style="background:rgba(0,0,0,0.4); padding:5px; border-radius:4px;">[Mic] Continuous engine online.</div>
+                <div style="background:rgba(0,0,0,0.4); padding:5px; border-radius:4px;">[Dost] Ready to listen non-stop.</div>
             </div>
         </div>
     </div>
 
     <script>
         let friendName = localStorage.getItem('aura_friend_name') || null;
+        let isContinuousActive = true;
+        let recognition = null;
 
         function initApp() {
             updateUI();
             if (!friendName) {
                 let greeting = "Salam yaar! Main Aura hoon. Tera kya naam hai?";
                 appendMessage(greeting, 'ai');
-                speakAura(greeting);
+                speakAura(greeting, startContinuousListening);
             } else {
                 let welcomeMsg = `Oye ${friendName}! Kaisa hai yaar? Bata kya chal raha hai aaj kal?`;
                 appendMessage(welcomeMsg, 'ai');
-                speakAura(welcomeMsg);
+                speakAura(welcomeMsg, startContinuousListening);
             }
         }
 
         function updateUI() {
             let nameToShow = friendName ? friendName : "Dost";
-            document.getElementById('ownerDisplay').innerText = `Dost: ${nameToShow} | Mode: Chill`;
+            document.getElementById('ownerDisplay').innerText = `Dost: ${nameToShow} | Mic: Auto-Active`;
         }
 
+        // Neural Animation Setup
         const canvas = document.getElementById('neuralCanvas');
         const ctx = canvas.getContext('2d');
         function resize() {
@@ -253,50 +256,95 @@
         }
         animate();
 
-        function speakAura(text) {
+        // Speech Synthesis with callback after speaking finishes
+        function speakAura(text, callback) {
             if('speechSynthesis' in window) {
                 window.speechSynthesis.cancel();
                 let utterance = new SpeechSynthesisUtterance(text);
                 utterance.lang = 'ur-PK';
                 utterance.rate = 1.0;
+                utterance.onend = () => {
+                    if(callback) callback();
+                };
                 window.speechSynthesis.speak(utterance);
+            } else {
+                if(callback) callback();
             }
         }
 
-        let recognition;
-        let listening = false;
-        function toggleMic() {
-            const btn = document.getElementById('micBtn');
-            if(!('webkitSpeechRecognition' in window) and !('SpeechRecognition' in window)) {
-                alert("Speech recognition Chrome browser mein hi chalegi.");
+        // Continuous Speech Recognition Logic
+        function startContinuousListening() {
+            if(!isContinuousActive) return;
+            if(!('webkitSpeechRecognition' in window) && !('SpeechRecognition' in window)) {
                 return;
             }
             const SpeechRec = window.SpeechRecognition || window.webkitSpeechRecognition;
-            if(listening) {
-                if(recognition) recognition.stop();
-                return;
-            }
+            
+            try {
+                if(recognition) {
+                    recognition.stop();
+                }
+            } catch(e) {}
+
             recognition = new SpeechRec();
             recognition.lang = 'ur-PK';
             recognition.interimResults = false;
+            recognition.continuous = false; // Restart on end for stable continuous flow
             
             recognition.onstart = () => {
-                listening = true;
-                btn.classList.add('listening');
+                document.getElementById('micBtn').classList.add('listening');
+                document.getElementById('micStatusText').innerText = "Listening...";
             };
+
             recognition.onresult = (e) => {
                 let text = e.results[0][0].transcript;
                 document.getElementById('userInput').value = text;
                 executeCommand(text);
             };
-            recognition.onerror = () => stopMic();
-            recognition.onend = () => stopMic();
-            recognition.start();
+
+            recognition.onerror = () => {
+                // Auto restart if error occurs
+                setTimeout(() => {
+                    if(isContinuousActive) startContinuousListening();
+                }, 1000);
+            };
+
+            recognition.onend = () => {
+                document.getElementById('micBtn').classList.remove('listening');
+                document.getElementById('micStatusText').innerText = "Auto Continuous";
+                // Automatically restart listening after user stops speaking and AI replies
+                setTimeout(() => {
+                    if(isContinuousActive) startContinuousListening();
+                }, 800);
+            };
+
+            try {
+                recognition.start();
+            } catch(e) {}
         }
 
-        function stopMic() {
-            listening = false;
-            document.getElementById('micBtn').classList.remove('listening');
+        function toggleContinuousMic() {
+            isContinuousActive = !isContinuousActive;
+            const btnText = document.getElementById('toggleMicModeBtn');
+            if(isContinuousActive) {
+                btnText.innerText = "🎙️ Stop/Start Auto-Mic";
+                btnText.style.borderColor = "#22c55e";
+                btnText.style.color = "#22c55e";
+                startContinuousListening();
+            } else {
+                btnText.innerText = "🔇 Auto-Mic Off (Click to Enable)";
+                btnText.style.borderColor = "#ef4444";
+                btnText.style.color = "#ef4444";
+                if(recognition) recognition.stop();
+            }
+        }
+
+        function manualTriggerMic() {
+            if(isContinuousActive) {
+                toggleContinuousMic();
+            } else {
+                toggleContinuousMic();
+            }
         }
 
         function appendMessage(text, sender) {
@@ -305,11 +353,16 @@
             stream.scrollTop = stream.scrollHeight;
         }
 
-        // Smart Friend Response Generator (Puri tarah se dosto wali guftagu)
+        // Friend Chat Processor
         function executeCommand(spokenText = null) {
             const input = document.getElementById('userInput');
             const text = spokenText || input.value.trim();
             if(!text) return;
+
+            // Temporarily pause listening while processing and speaking
+            if(recognition) {
+                try { recognition.stop(); } catch(e){}
+            }
 
             appendMessage(text, 'user');
             input.value = '';
@@ -318,7 +371,6 @@
                 let reply = "";
                 let lower = text.toLowerCase();
 
-                // 1. Pehli dafa naam save karne ke liye
                 if (!friendName) {
                     friendName = text.replace(/mera naam hai|mera naam|i am|mera|naam|hai|ميرا|نام|ہے/gi, '').trim();
                     if(friendName.length === 0) friendName = text;
@@ -326,17 +378,10 @@
                     updateUI();
                     reply = `Bohat zabardast naam hai, ${friendName} bhai! Ab bata kya chal raha hai life mein?`;
                 }
-                // 2. Halchal puchne par
                 else if(lower.includes('kaise ho') || lower.includes('kya hal hai') || lower.includes('kya haal hai') || lower.includes('sab theek')) {
                     reply = `Main bilkul fit hoon yaar! Tu bata, tu kaisa hai aur din kaisa ja raha hai tera?`;
                 }
-                // 3. Agar mazak ya gussa kare
-                else if(lower.includes('pagal') || lower.includes('drama') || lower.includes('bakwaas')) {
-                    reply = `Hahaha! Oye aise mat bol yaar, tera hi toh dost hoon. Bata kya scene hai?`;
-                }
-                // 4. Koi bhi aam sawal ya baat ho toh dosto ki tarah jawab
                 else {
-                    // Hum yahan user ke text ke hisaab se dostana response banayenge
                     const friendReplies = [
                         `Sahi keh raha hai yaar ${friendName}! Is baare mein socha jaye toh baat toh teri bilkul theek hai.`,
                         `Acha sach mein? Phir kya kiya tune is par? Mujhe thoda aur bata na!`,
@@ -344,14 +389,16 @@
                         `Hmm, yeh bhi sahi hai. Waise tera is baare mein kya irada hai?`,
                         `Sahi hai yaar! Main toh kehta hoon maze kar, itna tension mat le.`
                     ];
-                    // Random dosto wala jawab chun lo taake har baar alag lage
                     let randomIdx = Math.floor(Math.random() * friendReplies.length);
                     reply = friendReplies[randomIdx];
                 }
 
                 appendMessage(reply, 'ai');
-                speakAura(reply);
-            }, 400);
+                // Speak response and resume continuous listening when speaking ends
+                speakAura(reply, () => {
+                    if(isContinuousActive) startContinuousListening();
+                });
+            }, 300);
         }
 
         function handleKey(e) { if(e.key === 'Enter') executeCommand(); }
@@ -364,5 +411,5 @@
         }
     </script>
 </body>
-                                                                       </html>
+    </html>
     
