@@ -1,18 +1,18 @@
-<!DOCTYPE html>
+         <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AuraCore Pro - Neural Workstation</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Aura - Neural Workstation</title>
     <style>
         :root {
-            --bg-color: #040810;
-            --panel-bg: rgba(11, 18, 32, 0.92);
+            --bg-color: #030712;
+            --panel-bg: rgba(10, 15, 30, 0.95);
             --accent: #38bdf8;
-            --accent-glow: rgba(56, 189, 248, 0.35);
+            --accent-glow: rgba(56, 189, 248, 0.4);
             --text-main: #f3f4f6;
             --text-sub: #9ca3af;
-            --border-color: rgba(56, 189, 248, 0.2);
+            --border-color: rgba(56, 189, 248, 0.25);
         }
         * { box-sizing: border-box; }
         body {
@@ -20,9 +20,9 @@
             background-color: var(--bg-color);
             color: var(--text-main);
             margin: 0;
-            padding: 12px;
+            padding: 10px;
             min-height: 100vh;
-            background-image: radial-gradient(circle at 50% 15%, #0f172a 0%, #040810 90%);
+            background-image: radial-gradient(circle at 50% 10%, #0f172a 0%, #030712 90%);
         }
 
         .top-bar {
@@ -32,56 +32,54 @@
             background: var(--panel-bg);
             border: 1px solid var(--border-color);
             padding: 12px 20px;
-            border-radius: 14px;
-            margin-bottom: 12px;
-            backdrop-filter: blur(12px);
-            box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+            border-radius: 12px;
+            margin-bottom: 10px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.6);
         }
-        .brand { display: flex; align-items: center; gap: 10px; font-weight: bold; color: var(--accent); font-size: 16px; letter-spacing: 0.5px; }
-        .dot { width: 9px; height: 9px; background: #22c55e; border-radius: 50%; box-shadow: 0 0 12px #22c55e; }
+        .brand { display: flex; align-items: center; gap: 8px; font-weight: bold; color: var(--accent); font-size: 16px; letter-spacing: 0.5px; }
+        .dot { width: 9px; height: 9px; background: #22c55e; border-radius: 50%; box-shadow: 0 0 10px #22c55e; }
 
-        /* Desktop Grid Layout */
+        /* Force Desktop Grid View */
         .workspace-grid {
             display: grid;
-            grid-template-columns: 280px 1fr 300px;
-            gap: 14px;
-            max-width: 1450px;
+            grid-template-columns: 280px 1fr 290px;
+            gap: 10px;
+            max-width: 1550px;
             margin: 0 auto;
         }
-        @media(max-width: 1024px) {
+        @media(max-width: 1100px) {
             .workspace-grid { grid-template-columns: 1fr; }
         }
 
         .panel {
             background: var(--panel-bg);
             border: 1px solid var(--border-color);
-            border-radius: 16px;
-            padding: 16px;
+            border-radius: 14px;
+            padding: 14px;
             display: flex;
             flex-direction: column;
-            gap: 12px;
-            backdrop-filter: blur(14px);
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            gap: 10px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.5);
         }
-        .panel-title { font-size: 13px; font-weight: 700; color: var(--accent); margin: 0; text-transform: uppercase; letter-spacing: 0.8px; }
+        .panel-title { font-size: 12px; font-weight: 700; color: var(--accent); margin: 0; text-transform: uppercase; letter-spacing: 0.8px; }
 
         .stat-box {
-            background: rgba(0,0,0,0.45);
-            border: 1px solid rgba(255,255,255,0.06);
-            padding: 10px 12px;
-            border-radius: 10px;
-            font-size: 12px;
+            background: rgba(0,0,0,0.5);
+            border: 1px solid rgba(255,255,255,0.05);
+            padding: 8px 10px;
+            border-radius: 8px;
+            font-size: 11px;
         }
         .stat-box span { color: var(--accent); font-weight: bold; }
 
-        /* Center Neural Screen */
+        /* Main Visualizer Screen */
         .main-screen {
-            height: 220px;
-            background: #020408;
-            border-radius: 12px;
+            height: 200px;
+            background: #010409;
+            border-radius: 10px;
             position: relative;
             overflow: hidden;
-            border: 1px solid rgba(56, 189, 248, 0.25);
+            border: 1px solid rgba(56, 189, 248, 0.3);
             display: flex;
             align-items: center;
             justify-content: center;
@@ -91,149 +89,147 @@
         /* Chat Stream */
         .chat-container {
             flex: 1;
-            height: 260px;
+            height: 240px;
             overflow-y: auto;
-            background: rgba(2, 4, 8, 0.7);
-            border-radius: 12px;
-            padding: 12px;
+            background: rgba(2, 4, 8, 0.8);
+            border-radius: 10px;
+            padding: 10px;
             display: flex;
             flex-direction: column;
-            gap: 10px;
-            border: 1px solid rgba(255,255,255,0.06);
+            gap: 8px;
+            border: 1px solid rgba(255,255,255,0.05);
         }
-        .message { padding: 10px 14px; border-radius: 10px; font-size: 13px; line-height: 1.5; max-width: 90%; }
+        .message { padding: 8px 12px; border-radius: 8px; font-size: 12px; line-height: 1.4; max-width: 90%; }
         .message.ai { background: rgba(56, 189, 248, 0.12); color: var(--accent); border-left: 3px solid var(--accent); }
-        .message.user { background: rgba(99, 102, 241, 0.18); color: #e0e7ff; align-self: flex-end; border-right: 3px solid #6366f1; }
+        .message.user { background: rgba(99, 102, 241, 0.2); color: #e0e7ff; align-self: flex-end; border-right: 3px solid #6366f1; }
 
-        /* Control Panel with Fancy Mic Icon */
+        /* Control Panel */
         .control-panel {
             display: flex;
-            gap: 10px;
+            gap: 8px;
             align-items: center;
         }
         .control-panel input {
             flex: 1;
-            background: rgba(0,0,0,0.6);
+            background: rgba(0,0,0,0.7);
             border: 1px solid var(--border-color);
-            padding: 12px 14px;
-            border-radius: 10px;
+            padding: 10px 12px;
+            border-radius: 8px;
             color: #fff;
             outline: none;
-            font-size: 13px;
+            font-size: 12px;
         }
         .control-panel input:focus { border-color: var(--accent); }
         
+        /* Pro Voice Mic Button */
         .mic-btn {
             background: linear-gradient(135deg, #38bdf8, #2563eb);
             color: #fff;
             border: none;
-            width: 46px;
-            height: 46px;
+            width: 44px;
+            height: 44px;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
             cursor: pointer;
             box-shadow: 0 0 15px var(--accent-glow);
-            transition: 0.3s;
-            font-size: 18px;
             flex-shrink: 0;
+            transition: 0.3s;
         }
+        .mic-btn svg { width: 20px; height: 20px; fill: #ffffff; }
         .mic-btn.listening {
             background: linear-gradient(135deg, #ef4444, #dc2626) !important;
             box-shadow: 0 0 25px rgba(239, 68, 68, 0.8);
-            animation: micPulse 1.2s infinite;
+            animation: pulseMic 1s infinite;
         }
-        @keyframes micPulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.12); }
-            100% { transform: scale(1); }
-        }
+        @keyframes pulseMic { 0% { transform: scale(1); } 50% { transform: scale(1.12); } 100% { transform: scale(1); } }
 
         .run-btn {
             background: linear-gradient(135deg, #38bdf8, #2563eb);
             color: #fff;
             border: none;
-            padding: 12px 18px;
-            border-radius: 10px;
+            padding: 10px 16px;
+            border-radius: 8px;
             font-weight: bold;
             cursor: pointer;
-            font-size: 13px;
+            font-size: 12px;
         }
     </style>
 </head>
 <body onload="initApp()">
 
     <div class="top-bar">
-        <div class="brand"><div class="dot"></div> AURACORE PRO WORKSTATION v5.0</div>
-        <div id="userDisplay" style="font-size: 12px; color: var(--text-sub);">User: Loading... | Mode: Smart AI Assistant</div>
+        <div class="brand"><div class="dot"></div> AURA PRO WORKSTATION</div>
+        <div id="userDisplay" style="font-size: 11px; color: var(--text-sub);">Owner: Loading... | Authority: Active</div>
     </div>
 
     <div class="workspace-grid">
+        <!-- LEFT PANEL -->
         <div class="panel">
             <h3 class="panel-title">System Metrics</h3>
-            <div class="stat-box">AI Core Efficiency: <span>99.9%</span></div>
-            <div class="stat-box">Neural Matrix: <span>4,096 Nodes</span></div>
-            <div class="stat-box">Voice Engine: <span>Urdu / Hindi Neural</span></div>
+            <div class="stat-box">AI Status: <span>Online & Authorized</span></div>
+            <div class="stat-box">Multi-Language: <span>Global Poly-Neural</span></div>
+            <div class="stat-box">Direct Actions: <span>Calls & Messaging Active</span></div>
             
-            <h3 class="panel-title" style="margin-top: 10px;">Capabilities & Skills</h3>
-            <div style="font-size: 12px; color: var(--text-sub); line-height: 1.6;">
-                • **Voice Tasks:** Aap jo bolenge yeh likhega aur Urdu mein jawab dega.<br>
-                • **Automation:** Social media captions & analytics.<br>
-                • **Companion:** Normal friendly dost ki tarah baat karega.
-            </div>
+            <h3 class="panel-title" style="margin-top: 8px;">Owner Quick Tools</h3>
+            <button onclick="quickAction('status')" style="background:rgba(56,189,248,0.1); border:1px solid var(--border-color); color:var(--accent); padding:8px; border-radius:6px; cursor:pointer; font-size:11px; text-align:left;">⚡ System Diagnostics</button>
+            <button onclick="quickAction('reset')" style="background:rgba(239,68,68,0.1); border:1px solid rgba(239,68,68,0.3); color:#ef4444; padding:8px; border-radius:6px; cursor:pointer; font-size:11px; text-align:left;">🔄 Reconfigure Owner Profile</button>
         </div>
 
+        <!-- CENTER PANEL -->
         <div class="panel">
             <h3 class="panel-title">Neural Node Matrix Display</h3>
             <div class="main-screen">
                 <canvas id="neuralCanvas"></canvas>
-                <div style="position:relative; z-index:2; font-size:11px; background:rgba(0,0,0,0.75); padding:4px 10px; border-radius:6px; color:var(--accent);">
-                    Live Neural Stream Active
+                <div style="position:relative; z-index:2; font-size:10px; background:rgba(0,0,0,0.8); padding:3px 8px; border-radius:4px; color:var(--accent);">
+                    Live Desktop Matrix Stream
                 </div>
             </div>
 
-            <h3 class="panel-title" style="margin-top:5px;">Command Terminal</h3>
-            <div class="chat-container" id="chatStream">
-                <div class="message ai">Assalam-o-Alaikum! Main Aura hoon. Aapka kya naam hai?</div>
-            </div>
+            <h3 class="panel-title" style="margin-top:2px;">Command Terminal</h3>
+            <div class="chat-container" id="chatStream"></div>
 
             <div class="control-panel">
-                <button id="micBtn" class="mic-btn" onclick="toggleMic()" title="Tap once to speak">🎙️</button>
+                <!-- Pro Mic Icon (Ek bar tap karne par poora kaam karega) -->
+                <button id="micBtn" class="mic-btn" onclick="toggleMic()" title="Tap once to speak">
+                    <svg viewBox="0 0 24 24"><path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z"/><path d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"/></svg>
+                </button>
                 <input type="text" id="userInput" placeholder="Yahan type karein ya mic dabayein..." onkeypress="handleKey(event)">
                 <button class="run-btn" onclick="executeCommand()">Bhejo</button>
             </div>
         </div>
 
+        <!-- RIGHT PANEL -->
         <div class="panel">
-            <h3 class="panel-title">Live Activity Logs</h3>
-            <div style="font-size: 11px; color: var(--text-sub); display:flex; flex-direction:column; gap:8px;">
-                <div style="background:rgba(0,0,0,0.35); padding:8px; border-radius:6px;">[System] Speech engine online.</div>
-                <div style="background:rgba(0,0,0,0.35); padding:8px; border-radius:6px;">[Neural] One-tap voice sync active.</div>
-                <div style="background:rgba(0,0,0,0.35); padding:8px; border-radius:6px;">[Ready] Awaiting user instructions.</div>
+            <h3 class="panel-title">Execution Logs</h3>
+            <div style="font-size: 10px; color: var(--text-sub); display:flex; flex-direction:column; gap:6px;">
+                <div style="background:rgba(0,0,0,0.4); padding:6px; border-radius:4px;">[Auth] Owner override verified.</div>
+                <div style="background:rgba(0,0,0,0.4); padding:6px; border-radius:4px;">[Voice] One-tap engine synced.</div>
+                <div style="background:rgba(0,0,0,0.4); padding:6px; border-radius:4px;">[Ready] Awaiting command.</div>
             </div>
         </div>
     </div>
 
     <script>
-        let userName = localStorage.getItem('auracore_username') || null;
+        let ownerName = localStorage.getItem('aura_owner_name') || null;
 
         function initApp() {
-            if (!userName) {
-                // Agar naam saved nahi hai toh pehli bar puchega
-                speakUrdu("Assalam-o-Alaikum! Main Aura hoon. Aapka kya naam hai?");
+            updateOwnerUI();
+            if (!ownerName) {
+                let greeting = "Assalam-o-Alaikum! Main Aura hoon. Aapka kya naam hai?";
+                appendMessage(greeting, 'ai');
+                speakAura(greeting);
             } else {
-                updateUserUI();
-                let welcomeMsg = `Welcome back, ${userName}! Aaj main aapki kya madad karoon?`;
+                let welcomeMsg = `Welcome back, ${ownerName}! Main Aura hoon, bataiye kya hukum hai?`;
                 appendMessage(welcomeMsg, 'ai');
-                speakUrdu(welcomeMsg);
+                speakAura(welcomeMsg);
             }
         }
 
-        function updateUserUI() {
-            if(userName) {
-                document.getElementById('userDisplay').innerText = `User: ${userName} | Mode: Smart AI Assistant`;
-            }
+        function updateOwnerUI() {
+            let nameToShow = ownerName ? ownerName : "Pending Setup";
+            document.getElementById('userDisplay').innerText = `Owner: ${nameToShow} | Authority: Active`;
         }
 
         // Canvas Neural Animation
@@ -247,14 +243,14 @@
         resize();
 
         let nodes = [];
-        for(let i=0; i<35; i++) {
-            nodes.push({ x: Math.random()*canvas.width, y: Math.random()*canvas.height, vx: (Math.random()-0.5)*1.2, vy: (Math.random()-0.5)*1.2 });
+        for(let i=0; i<40; i++) {
+            nodes.push({ x: Math.random()*canvas.width, y: Math.random()*canvas.height, vx: (Math.random()-0.5)*1.5, vy: (Math.random()-0.5)*1.5 });
         }
 
         function animate() {
             ctx.clearRect(0,0,canvas.width, canvas.height);
             ctx.fillStyle = '#38bdf8';
-            ctx.strokeStyle = 'rgba(56, 189, 248, 0.2)';
+            ctx.strokeStyle = 'rgba(56, 189, 248, 0.25)';
             nodes.forEach((n, idx) => {
                 n.x += n.vx; n.y += n.vy;
                 if(n.x<0 || n.x>canvas.width) n.vx*=-1;
@@ -262,7 +258,7 @@
                 ctx.beginPath(); ctx.arc(n.x, n.y, 2, 0, Math.PI*2); ctx.fill();
                 for(let j=idx+1; j<nodes.length; j++) {
                     let n2 = nodes[j];
-                    if(Math.hypot(n.x-n2.x, n.y-n2.y) < 85) {
+                    if(Math.hypot(n.x-n2.x, n.y-n2.y) < 90) {
                         ctx.beginPath(); ctx.moveTo(n.x, n.y); ctx.lineTo(n2.x, n2.y); ctx.stroke();
                     }
                 }
@@ -271,24 +267,24 @@
         }
         animate();
 
-        // Urdu/Hindi Speech Synthesis
-        function speakUrdu(text) {
+        // Multi-Language Speech Synthesis
+        function speakAura(text) {
             if('speechSynthesis' in window) {
                 window.speechSynthesis.cancel();
                 let utterance = new SpeechSynthesisUtterance(text);
-                utterance.lang = 'hi-IN'; // Hindi/Urdu voice support
-                utterance.rate = 0.95;
+                utterance.lang = 'hi-IN'; // Supports Hindi/Urdu/Global speech
+                utterance.rate = 1.0;
                 window.speechSynthesis.speak(utterance);
             }
         }
 
-        // One-Tap Voice Recognition
+        // One-Tap Voice Recognition (Sirf ek bar dabane par chalega)
         let recognition;
         let listening = false;
         function toggleMic() {
             const btn = document.getElementById('micBtn');
             if(!('webkitSpeechRecognition' in window) && !('SpeechRecognition' in window)) {
-                alert("Speech recognition is browser supported only in Google Chrome.");
+                alert("Speech recognition is supported in Google Chrome.");
                 return;
             }
             const SpeechRec = window.SpeechRecognition || window.webkitSpeechRecognition;
@@ -297,13 +293,12 @@
                 return;
             }
             recognition = new SpeechRec();
-            recognition.lang = 'hi-IN'; // Urdu/Hindi voice input
+            recognition.lang = 'hi-IN'; // Multi-lingual support
             recognition.interimResults = false;
             
             recognition.onstart = () => {
                 listening = true;
                 btn.classList.add('listening');
-                btn.innerHTML = "🛑";
             };
             recognition.onresult = (e) => {
                 let text = e.results[0][0].transcript;
@@ -318,7 +313,6 @@
         function stopMic() {
             listening = false;
             document.getElementById('micBtn').classList.remove('listening');
-            document.getElementById('micBtn').innerHTML = "🎙️";
         }
 
         function appendMessage(text, sender) {
@@ -339,28 +333,61 @@
                 let reply = "";
                 let lower = text.toLowerCase();
 
-                if (!userName) {
-                    userName = text;
-                    localStorage.setItem('auracore_username', userName);
-                    updateUserUI();
-                    reply = `Bohat acha laga aapse mil kar, ${userName}! Ab bataiye, main aapke liye kya kaam kar sakta hoon?`;
-                } else if(lower.includes('kaise ho') || lower.includes('kya hal hai')) {
-                    reply = `Main bilkul theek hoon ${userName}! Aap sunayein, sab kaisa chal raha hai?`;
-                } else if(lower.includes('tum kya kar sakte ho') || lower.includes('kaam')) {
-                    reply = `${userName}, main aapke social media captions generate kar sakta hoon, live stats track kar sakta hoon, aur aapki har baat sun kar execute kar sakta hoon!`;
-                } else if(lower.includes('caption') || lower.includes('anime')) {
-                    reply = "Animeverse Caption Hub active: #AuraCore #NextGen #Elite 🔥";
-                } else {
-                    reply = `Aapka hukum sar aankhon par, ${userName}! "${text}" par processing shuru kar di gayi hai.`;
+                if (!ownerName) {
+                    ownerName = text.replace(/my name is|mera naam hai|mera naam/gi, '').trim();
+                    if(ownerName.length === 0) ownerName = text;
+                    localStorage.setItem('aura_owner_name', ownerName);
+                    updateOwnerUI();
+                    reply = `Bohat acha laga, ${ownerName}! Ab aapki har authority mere paas hai. Main kya karun?`;
+                } 
+                // Call execution command
+                else if(lower.includes('call') || lower.includes('ko call karo') || lower.includes('lagao')) {
+                    let target = text.replace(/call karo|call lagao|ko|par|karu/gi, '').trim();
+                    reply = `Aapka hukum sar aankhon par, ${ownerName}! Mawaddat (ya target) ko call connect ki ja rahi hai...`;
+                    // Website based direct tel link trigger
+                    setTimeout(() => {
+                        window.location.href = `tel:+923000000000`; // Direct phone dialer trigger on mobile/desktop
+                    }, 1000);
+                } 
+                // Message / SMS execution command with recheck feature
+                else if(lower.includes('message') || lower.includes('sms') || lower.includes('whatsapp') baat) {
+                    let msgContent = text;
+                    reply = `Boss ${ownerName}, maine message taiyar kar liya hai: "${msgContent}". Kya yeh bilkul theek hai ya kuch galti hai? Recheck kar lein!`;
+                    
+                    // Direct WhatsApp web link generation for instant messaging
+                    setTimeout(() => {
+                        let encodedMsg = encodeURIComponent(msgContent);
+                        window.open(`https://wa.me/?text=${encodedMsg}`, '_blank');
+                    }, 1500);
+                } 
+                else if(lower.includes('reset')) {
+                    localStorage.removeItem('aura_owner_name');
+                    ownerName = null;
+                    updateOwnerUI();
+                    reply = "Owner profile reset ho chuki hai. Naya naam batayein.";
+                } 
+                else {
+                    reply = `Aapka hukum sar aankhon par, ${ownerName}! Har zaban aur instruction par amal kiya ja raha hai: "${text}".`;
                 }
 
                 appendMessage(reply, 'ai');
-                speakUrdu(reply);
-            }, 500);
+                speakAura(reply);
+            }, 400);
         }
 
         function handleKey(e) { if(e.key === 'Enter') executeCommand(); }
+
+        function quickAction(action) {
+            if(action === 'status') {
+                let r = `System Diagnostics: Aura Pro is running at peak efficiency for owner ${ownerName || 'Boss'}. All communication bridges active.`;
+                appendMessage(r, 'ai');
+                speakAura(r);
+            } else if(action === 'reset') {
+                localStorage.removeItem('aura_owner_name');
+                location.reload();
+            }
+        }
     </script>
 </body>
-                               </html>
-    
+</html>
+           
