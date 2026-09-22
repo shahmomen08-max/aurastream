@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Aura - Neural Workstation</title>
+    <title>Aura - Neural Workstation v12</title>
     <style>
         :root {
             --bg-color: #030712;
@@ -153,30 +153,28 @@
 <body onload="initApp()">
 
     <div class="top-bar">
-        <div class="brand"><div class="dot"></div> AURA WORKSTATION</div>
-        <div id="ownerDisplay" style="font-size: 10px; color: var(--text-sub);">Owner: Loading... | Authority: Active</div>
+        <div class="brand"><div class="dot"></div> AURA WORKSTATION v12</div>
+        <div id="ownerDisplay" style="font-size: 10px; color: var(--text-sub);">Owner: Loading... | Status: Active</div>
     </div>
 
     <div class="workspace-grid">
-        <!-- LEFT PANEL -->
         <div class="panel">
             <h3 class="panel-title">System Metrics</h3>
-            <div class="stat-box">AI Status: <span>Online & Authorized</span></div>
-            <div class="stat-box">Multi-Language: <span>Urdu/Roman Active</span></div>
-            <div class="stat-box">Direct Actions: <span>Calls & Messaging Active</span></div>
+            <div class="stat-box">AI Core: <span>Advanced Neural v12</span></div>
+            <div class="stat-box">Language: <span>Roman Urdu & Global</span></div>
+            <div class="stat-box">Mode: <span>Smart Conversational AI</span></div>
             
-            <h3 class="panel-title" style="margin-top: 6px;">Owner Quick Tools</h3>
-            <button onclick="quickAction('status')" style="background:rgba(56,189,248,0.1); border:1px solid var(--border-color); color:var(--accent); padding:6px; border-radius:5px; cursor:pointer; font-size:10px; text-align:left;">⚡ System Diagnostics</button>
-            <button onclick="quickAction('reset')" style="background:rgba(239,68,68,0.1); border:1px solid rgba(239,68,68,0.3); color:#ef4444; padding:6px; border-radius:5px; cursor:pointer; font-size:10px; text-align:left;">🔄 Reconfigure Owner Profile</button>
+            <h3 class="panel-title" style="margin-top: 6px;">Quick Controls</h3>
+            <button onclick="quickAction('status')" style="background:rgba(56,189,248,0.1); border:1px solid var(--border-color); color:var(--accent); padding:6px; border-radius:5px; cursor:pointer; font-size:10px; text-align:left;">⚡ System Status</button>
+            <button onclick="quickAction('reset')" style="background:rgba(239,68,68,0.1); border:1px solid rgba(239,68,68,0.3); color:#ef4444; padding:6px; border-radius:5px; cursor:pointer; font-size:10px; text-align:left;">🔄 Reset Owner Profile</button>
         </div>
 
-        <!-- CENTER PANEL -->
         <div class="panel">
             <h3 class="panel-title">Neural Node Matrix Display</h3>
             <div class="main-screen">
                 <canvas id="neuralCanvas"></canvas>
                 <div style="position:relative; z-index:2; font-size:9px; background:rgba(0,0,0,0.8); padding:2px 6px; border-radius:4px; color:var(--accent);">
-                    Live Desktop Matrix Stream
+                    Live Neural Core Stream
                 </div>
             </div>
 
@@ -184,21 +182,20 @@
             <div class="chat-container" id="chatStream"></div>
 
             <div class="control-panel">
-                <button id="micBtn" class="mic-btn" onclick="toggleMic()" title="Tap once to speak">
+                <button id="micBtn" class="mic-btn" onclick="toggleMic()" title="Tap to speak">
                     <svg viewBox="0 0 24 24"><path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z"/><path d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"/></svg>
                 </button>
-                <input type="text" id="userInput" placeholder="Yahan apna hukum likhein ya mic dabayein..." onkeypress="handleKey(event)">
+                <input type="text" id="userInput" placeholder="Yahan apna sawal ya hukum likhein..." onkeypress="handleKey(event)">
                 <button class="run-btn" onclick="executeCommand()">Send</button>
             </div>
         </div>
 
-        <!-- RIGHT PANEL -->
         <div class="panel">
             <h3 class="panel-title">Execution Logs</h3>
             <div style="font-size: 9px; color: var(--text-sub); display:flex; flex-direction:column; gap:5px;">
-                <div style="background:rgba(0,0,0,0.4); padding:5px; border-radius:4px;">[Auth] Owner override verified.</div>
-                <div style="background:rgba(0,0,0,0.4); padding:5px; border-radius:4px;">[Voice] Universal language bridge active.</div>
-                <div style="background:rgba(0,0,0,0.4); padding:5px; border-radius:4px;">[Ready] Awaiting command.</div>
+                <div style="background:rgba(0,0,0,0.4); padding:5px; border-radius:4px;">[Core] Neural engine optimized.</div>
+                <div style="background:rgba(0,0,0,0.4); padding:5px; border-radius:4px;">[Assistant] Direct responses enabled.</div>
+                <div style="background:rgba(0,0,0,0.4); padding:5px; border-radius:4px;">[Ready] Listening to user.</div>
             </div>
         </div>
     </div>
@@ -213,7 +210,7 @@
                 appendMessage(greeting, 'ai');
                 speakAura(greeting);
             } else {
-                let welcomeMsg = `Welcome back, ${ownerName}! Main Aura hoon, bataiye kya hukum hai?`;
+                let welcomeMsg = `Welcome back, ${ownerName}! Main Aura hoon, bataiye aaj main aapki kya madad kar sakti hoon?`;
                 appendMessage(welcomeMsg, 'ai');
                 speakAura(welcomeMsg);
             }
@@ -221,7 +218,7 @@
 
         function updateOwnerUI() {
             let nameToShow = ownerName ? ownerName : "Pending Setup";
-            document.getElementById('ownerDisplay').innerText = `Owner: ${nameToShow} | Authority: Active`;
+            document.getElementById('ownerDisplay').innerText = `Owner: ${nameToShow} | Status: Active`;
         }
 
         const canvas = document.getElementById('neuralCanvas');
@@ -322,38 +319,32 @@
                 let reply = "";
                 let lower = text.toLowerCase();
 
-                // Check if owner name is not set yet (Handles both English and Urdu/Roman input)
+                // 1. Owner Name Registration
                 if (!ownerName) {
-                    // Clean up common prefixes from input
                     ownerName = text.replace(/my name is|mera naam hai|mera naam|i am|mera|naam|hai|ميرا|نام|ہے/gi, '').trim();
                     if(ownerName.length === 0) ownerName = text;
                     localStorage.setItem('aura_owner_name', ownerName);
                     updateOwnerUI();
-                    reply = `Bohat acha laga, ${ownerName}! Ab aapki har authority mere paas hai. Main kya karun?`;
+                    reply = `Bohat acha laga, ${ownerName}! Ab main aapki aik smart assistant hoon. Batayiye kya karna hai?`;
                 } 
-                // Call execution command
-                else if(lower.includes('call') || lower.includes('lagao') || lower.includes('karo') || lower.includes('كال') || lower.includes('فون')) {
-                    reply = `Aapka hukum sar aankhon par, ${ownerName}! Call connect ki ja rahi hai...`;
-                    setTimeout(() => {
-                        window.location.href = `tel:+923000000000`;
-                    }, 1000);
-                } 
-                // Message / WhatsApp execution command
-                else if(lower.includes('message') || lower.includes('sms') || lower.includes('whatsapp') || lower.includes('bhejo') || lower.includes('ميسج') || lower.includes('واٹس ایپ')) {
-                    reply = `Boss ${ownerName}, maine message taiyar kar liya hai: "${text}". Kya yeh bilkul theek hai ya recheck kar lein?`;
-                    setTimeout(() => {
-                        let encodedMsg = encodeURIComponent(text);
-                        window.open(`https://wa.me/?text=${encodedMsg}`, '_blank');
-                    }, 1500);
-                } 
+                // 2. Capabilities Question
+                else if(lower.includes('tum kya kar sakte ho') || lower.includes('what can you do') || lower.includes('capabilities') || lower.includes('kya kar sakti ho')) {
+                    reply = `Boss ${ownerName}, main aik advanced AI workstation hoon. Main aapke sawalon ke jawab de sakti hoon, ideas aur prompts de sakti hoon, coding mein madad kar sakti hoon, aur aapke sath Roman Urdu mein baat kar sakti hoon!`;
+                }
+                // 3. Prompt Request
+                else if(lower.includes('prompt') || lower.includes('mujhe prompt do')) {
+                    reply = `Yeh lijiye ${ownerName}, aapke liye aik zabardast prompt: "A futuristic cyberpunk neural workspace with glowing blue holographic streams, cinematic lighting, 4k resolution." Aap isay mazeed customize bhi kar sakte hain!`;
+                }
+                // 4. Reset Command
                 else if(lower.includes('reset') || lower.includes('رسيٹ')) {
                     localStorage.removeItem('aura_owner_name');
                     ownerName = null;
                     updateOwnerUI();
                     reply = "Owner profile reset ho chuki hai. Naya naam batayein.";
                 } 
+                // 5. General Conversational Fallback
                 else {
-                    reply = `Aapka hukum sar aankhon par, ${ownerName}! Is instruction par foran amal kiya ja raha hai: "${text}".`;
+                    reply = `Aapki baat samajh aa gayi, ${ownerName}! "${text}" ke mutabiq, yeh aik behtareen khayal hai. Is par mazeed tafseel yeh hai ke aap isay apne project mein implement kar sakte hain. Bataiye ismein aur kya help chahiye?`;
                 }
 
                 appendMessage(reply, 'ai');
@@ -365,7 +356,7 @@
 
         function quickAction(action) {
             if(action === 'status') {
-                let r = `System Diagnostics: Aura Workstation tez raftari se chal rahi hai owner ${ownerName || 'Boss'} ke liye. Sab systems active hain.`;
+                let r = `System Status: Aura Workstation mukammal taur par active hai. CPU load normal hai aur sabhi neural nodes bilkul theek kaam kar rahe hain, ${ownerName || 'Boss'}.`;
                 appendMessage(r, 'ai');
                 speakAura(r);
             } else if(action === 'reset') {
@@ -375,5 +366,5 @@
         }
     </script>
 </body>
-     </html>
-             
+            </html>
+    
