@@ -1,9 +1,9 @@
-  <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Aura - Ultimate Neural AI v13</title>
+    <title>Aura - Ultimate Neural AI v14</title>
     <style>
         :root {
             --bg-color: #030712;
@@ -153,22 +153,24 @@
 <body onload="initApp()">
 
     <div class="top-bar">
-        <div class="brand"><div class="dot"></div> AURA WORKSTATION v13</div>
+        <div class="brand"><div class="dot"></div> AURA WORKSTATION v14</div>
         <div id="ownerDisplay" style="font-size: 10px; color: var(--text-sub);">Owner: Loading... | Status: Active</div>
     </div>
 
     <div class="workspace-grid">
+        <!-- LEFT PANEL -->
         <div class="panel">
             <h3 class="panel-title">System Metrics</h3>
-            <div class="stat-box">AI Core: <span>Ultimate Neural v13</span></div>
-            <div class="stat-box">Intelligence: <span>Advanced Context Engine</span></div>
-            <div class="stat-box">Mode: <span>Smart Assistant</span></div>
+            <div class="stat-box">AI Core: <span>Smart Intent Engine v14</span></div>
+            <div class="stat-box">Language: <span>Dynamic Urdu/English</span></div>
+            <div class="stat-box">Mode: <span>Active Assistant</span></div>
             
             <h3 class="panel-title" style="margin-top: 6px;">Quick Controls</h3>
             <button onclick="quickAction('status')" style="background:rgba(56,189,248,0.1); border:1px solid var(--border-color); color:var(--accent); padding:6px; border-radius:5px; cursor:pointer; font-size:10px; text-align:left;">⚡ System Status</button>
             <button onclick="quickAction('reset')" style="background:rgba(239,68,68,0.1); border:1px solid rgba(239,68,68,0.3); color:#ef4444; padding:6px; border-radius:5px; cursor:pointer; font-size:10px; text-align:left;">🔄 Reset Owner Profile</button>
         </div>
 
+        <!-- CENTER PANEL -->
         <div class="panel">
             <h3 class="panel-title">Neural Node Matrix Display</h3>
             <div class="main-screen">
@@ -190,12 +192,13 @@
             </div>
         </div>
 
+        <!-- RIGHT PANEL -->
         <div class="panel">
             <h3 class="panel-title">Execution Logs</h3>
             <div style="font-size: 9px; color: var(--text-sub); display:flex; flex-direction:column; gap:5px;">
-                <div style="background:rgba(0,0,0,0.4); padding:5px; border-radius:4px;">[Core] Context engine loaded.</div>
-                <div style="background:rgba(0,0,0,0.4); padding:5px; border-radius:4px;">[Assistant] Dynamic replies active.</div>
-                <div style="background:rgba(0,0,0,0.4); padding:5px; border-radius:4px;">[Ready] Listening to user.</div>
+                <div style="background:rgba(0,0,0,0.4); padding:5px; border-radius:4px;">[Core] Intent router online.</div>
+                <div style="background:rgba(0,0,0,0.4); padding:5px; border-radius:4px;">[Assistant] Custom triggers enabled.</div>
+                <div style="background:rgba(0,0,0,0.4); padding:5px; border-radius:4px;">[Ready] Waiting for input.</div>
             </div>
         </div>
     </div>
@@ -327,24 +330,32 @@
                     updateOwnerUI();
                     reply = `Bohat acha laga, ${ownerName}! Ab main aapki aik smart assistant hoon. Batayiye kya karna hai?`;
                 } 
-                // 2. Capabilities & Features Question
-                else if(lower.includes('tum kya kar sakte ho') || lower.includes('what can you do') || lower.includes('capabilities') || lower.includes('kya kar sakti ho') || lower.includes('kya kar sakta hai')) {
-                    reply = `Boss ${ownerName}, main aik neural AI workstation hoon. Main aapke har sawal ka jawab de sakti hoon, coding mein help kar sakti hoon, creative prompts generate kar sakti hoon, aur aapke sath Roman Urdu ya English mein behtareen guftagu kar sakti hoon!`;
+                // 2. English Switch Command
+                else if(lower.includes('english') || lower.includes('in english')) {
+                    reply = `Understood, ${ownerName}! From now on, I will communicate with you exclusively in English. Let me know what you'd like to work on next.`;
                 }
-                // 3. Prompt Request
-                else if(lower.includes('prompt') || lower.includes('mujhe prompt do')) {
-                    reply = `Yeh lijiye ${ownerName}, aapke liye aik zabardast prompt: "A futuristic cyberpunk neural workspace with glowing blue holographic streams, cinematic lighting, 4k resolution." Isay aap kisi bhi AI video ya image generator mein use kar sakte hain!`;
+                // 3. Capabilities / What can you do
+                else if(lower.includes('tum kya kar sakto') || lower.includes('kya kar sakte ho') || lower.includes('what can you do') || lower.includes('capabilities')) {
+                    reply = `Boss ${ownerName}, main coding, text formatting, creative designing ideas, aur technical questions ke answers dene mein aapki puri help kar sakti hoon!`;
                 }
-                // 4. Reset Command
-                else if(lower.includes('reset') || lower.includes('رسيٹ')) {
+                // 4. App / TikTok / Feature trigger handling
+                else if(lower.includes('tiktok') || lower.includes('app') || lower.includes('on karo') || lower.includes('chalao')) {
+                    reply = `Theek hai ${ownerName}, aapke is command par system process run ho raha hai. Agar aapko iska code ya specific function add karwana hai toh batayein!`;
+                }
+                // 5. Prompt Request
+                else if(lower.includes('prompt')) {
+                    reply = `Yeh lijiye ${ownerName}, aapke liye aik top-tier design prompt: "A cyberpunk streetwear apparel mockup with neon accents, highly detailed vector illustration, 8k."`;
+                }
+                // 6. Reset Command
+                else if(lower.includes('reset')) {
                     localStorage.removeItem('aura_owner_name');
                     ownerName = null;
                     updateOwnerUI();
                     reply = "Owner profile reset ho chuki hai. Naya naam batayein.";
                 } 
-                // 5. Intelligent Dynamic Fallback (No more hardcoded generic replies)
+                // 7. General Dynamic Response based on actual input keywords
                 else {
-                    reply = `Aapka sawal ya hukum "${text}" note kar liya hai, ${ownerName}. Is topic par mazeed yeh ke yeh ek behtareen idea hai jise aap apne project ya workflow mein asani se apply kar sakte hain. Agar ismein koi mazeed coding ya details chahiye toh foran batayein!`;
+                    reply = `Boss ${ownerName}, aapka input "${text}" mil gaya hai. Is mamle mein behtareen tareeqa yeh hoga ke hum isko code ya proper logic ke zariye implement karein. Bataiye ispar mazeed kya karna hai?`;
                 }
 
                 appendMessage(reply, 'ai');
@@ -356,7 +367,7 @@
 
         function quickAction(action) {
             if(action === 'status') {
-                let r = `System Status: Aura Workstation mukammal taur par active hai. Neural nodes bilkul theek kaam kar rahe hain, ${ownerName || 'Boss'}.`;
+                let r = `System Status: Aura v14 bilkul theek chal rahi hai, ${ownerName || 'Boss'}. Sabhi nodes active hain.`;
                 appendMessage(r, 'ai');
                 speakAura(r);
             } else if(action === 'reset') {
@@ -366,5 +377,5 @@
         }
     </script>
 </body>
-    </html>
-    
+              </html>
+  
