@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Aura - Ultimate Neural AI v14</title>
+    <title>Aura - True Dost AI</title>
     <style>
         :root {
             --bg-color: #030712;
@@ -153,75 +153,70 @@
 <body onload="initApp()">
 
     <div class="top-bar">
-        <div class="brand"><div class="dot"></div> AURA WORKSTATION v14</div>
-        <div id="ownerDisplay" style="font-size: 10px; color: var(--text-sub);">Owner: Loading... | Status: Active</div>
+        <div class="brand"><div class="dot"></div> AURA FRIEND CHAT</div>
+        <div id="ownerDisplay" style="font-size: 10px; color: var(--text-sub);">Dost: Ready | Mode: Chill</div>
     </div>
 
     <div class="workspace-grid">
-        <!-- LEFT PANEL -->
         <div class="panel">
-            <h3 class="panel-title">System Metrics</h3>
-            <div class="stat-box">AI Core: <span>Smart Intent Engine v14</span></div>
-            <div class="stat-box">Language: <span>Dynamic Urdu/English</span></div>
-            <div class="stat-box">Mode: <span>Active Assistant</span></div>
+            <h3 class="panel-title">Vibe Status</h3>
+            <div class="stat-box">Mood: <span>Friendly & Chill</span></div>
+            <div class="stat-box">Talk Style: <span>Jaise Dost Se Baat Ho</span></div>
+            <div class="stat-box">Task Mode: <span>Off (Only Chat)</span></div>
             
-            <h3 class="panel-title" style="margin-top: 6px;">Quick Controls</h3>
-            <button onclick="quickAction('status')" style="background:rgba(56,189,248,0.1); border:1px solid var(--border-color); color:var(--accent); padding:6px; border-radius:5px; cursor:pointer; font-size:10px; text-align:left;">⚡ System Status</button>
-            <button onclick="quickAction('reset')" style="background:rgba(239,68,68,0.1); border:1px solid rgba(239,68,68,0.3); color:#ef4444; padding:6px; border-radius:5px; cursor:pointer; font-size:10px; text-align:left;">🔄 Reset Owner Profile</button>
+            <h3 class="panel-title" style="margin-top: 6px;">Options</h3>
+            <button onclick="quickAction('reset')" style="background:rgba(239,68,68,0.1); border:1px solid rgba(239,68,68,0.3); color:#ef4444; padding:6px; border-radius:5px; cursor:pointer; font-size:10px; text-align:left;">🔄 Naye Siray Se Baat Shuru Karo</button>
         </div>
 
-        <!-- CENTER PANEL -->
         <div class="panel">
             <h3 class="panel-title">Neural Node Matrix Display</h3>
             <div class="main-screen">
                 <canvas id="neuralCanvas"></canvas>
                 <div style="position:relative; z-index:2; font-size:9px; background:rgba(0,0,0,0.8); padding:2px 6px; border-radius:4px; color:var(--accent);">
-                    Live Neural Stream Active
+                    Aura Dost Chat Screen
                 </div>
             </div>
 
-            <h3 class="panel-title" style="margin-top:2px;">Command Terminal</h3>
+            <h3 class="panel-title" style="margin-top:2px;">Chat Window</h3>
             <div class="chat-container" id="chatStream"></div>
 
             <div class="control-panel">
-                <button id="micBtn" class="mic-btn" onclick="toggleMic()" title="Tap to speak">
+                <button id="micBtn" class="mic-btn" onclick="toggleMic()" title="Bolne ke liye dabayein">
                     <svg viewBox="0 0 24 24"><path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z"/><path d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"/></svg>
                 </button>
-                <input type="text" id="userInput" placeholder="Yahan apna sawal ya hukum likhein..." onkeypress="handleKey(event)">
-                <button class="run-btn" onclick="executeCommand()">Send</button>
+                <input type="text" id="userInput" placeholder="Yahan dost ki tarah kuch bhi likho..." onkeypress="handleKey(event)">
+                <button class="run-btn" onclick="executeCommand()">Bhejo</button>
             </div>
         </div>
 
-        <!-- RIGHT PANEL -->
         <div class="panel">
-            <h3 class="panel-title">Execution Logs</h3>
+            <h3 class="panel-title">Baat-Cheet Logs</h3>
             <div style="font-size: 9px; color: var(--text-sub); display:flex; flex-direction:column; gap:5px;">
-                <div style="background:rgba(0,0,0,0.4); padding:5px; border-radius:4px;">[Core] Intent router online.</div>
-                <div style="background:rgba(0,0,0,0.4); padding:5px; border-radius:4px;">[Assistant] Custom triggers enabled.</div>
-                <div style="background:rgba(0,0,0,0.4); padding:5px; border-radius:4px;">[Ready] Waiting for input.</div>
+                <div style="background:rgba(0,0,0,0.4); padding:5px; border-radius:4px;">[Chat] No task tension.</div>
+                <div style="background:rgba(0,0,0,0.4); padding:5px; border-radius:4px;">[Dost] Ready to listen to anything.</div>
             </div>
         </div>
     </div>
 
     <script>
-        let ownerName = localStorage.getItem('aura_owner_name') || null;
+        let friendName = localStorage.getItem('aura_friend_name') || null;
 
         function initApp() {
-            updateOwnerUI();
-            if (!ownerName) {
-                let greeting = "Assalam-o-Alaikum! Main Aura hoon. Aapka kya naam hai?";
+            updateUI();
+            if (!friendName) {
+                let greeting = "Salam yaar! Main Aura hoon. Tera kya naam hai?";
                 appendMessage(greeting, 'ai');
                 speakAura(greeting);
             } else {
-                let welcomeMsg = `Welcome back, ${ownerName}! Main Aura hoon, bataiye aaj main aapki kya madad kar sakti hoon?`;
+                let welcomeMsg = `Oye ${friendName}! Kaisa hai yaar? Bata kya chal raha hai aaj kal?`;
                 appendMessage(welcomeMsg, 'ai');
                 speakAura(welcomeMsg);
             }
         }
 
-        function updateOwnerUI() {
-            let nameToShow = ownerName ? ownerName : "Pending Setup";
-            document.getElementById('ownerDisplay').innerText = `Owner: ${nameToShow} | Status: Active`;
+        function updateUI() {
+            let nameToShow = friendName ? friendName : "Dost";
+            document.getElementById('ownerDisplay').innerText = `Dost: ${nameToShow} | Mode: Chill`;
         }
 
         const canvas = document.getElementById('neuralCanvas');
@@ -272,8 +267,8 @@
         let listening = false;
         function toggleMic() {
             const btn = document.getElementById('micBtn');
-            if(!('webkitSpeechRecognition' in window) && !('SpeechRecognition' in window)) {
-                alert("Speech recognition requires Google Chrome browser.");
+            if(!('webkitSpeechRecognition' in window) and !('SpeechRecognition' in window)) {
+                alert("Speech recognition Chrome browser mein hi chalegi.");
                 return;
             }
             const SpeechRec = window.SpeechRecognition || window.webkitSpeechRecognition;
@@ -310,6 +305,7 @@
             stream.scrollTop = stream.scrollHeight;
         }
 
+        // Smart Friend Response Generator (Puri tarah se dosto wali guftagu)
         function executeCommand(spokenText = null) {
             const input = document.getElementById('userInput');
             const text = spokenText || input.value.trim();
@@ -322,60 +318,51 @@
                 let reply = "";
                 let lower = text.toLowerCase();
 
-                // 1. Owner Name Registration
-                if (!ownerName) {
-                    ownerName = text.replace(/my name is|mera naam hai|mera naam|i am|mera|naam|hai|ميرا|نام|ہے/gi, '').trim();
-                    if(ownerName.length === 0) ownerName = text;
-                    localStorage.setItem('aura_owner_name', ownerName);
-                    updateOwnerUI();
-                    reply = `Bohat acha laga, ${ownerName}! Ab main aapki aik smart assistant hoon. Batayiye kya karna hai?`;
-                } 
-                // 2. English Switch Command
-                else if(lower.includes('english') || lower.includes('in english')) {
-                    reply = `Understood, ${ownerName}! From now on, I will communicate with you exclusively in English. Let me know what you'd like to work on next.`;
+                // 1. Pehli dafa naam save karne ke liye
+                if (!friendName) {
+                    friendName = text.replace(/mera naam hai|mera naam|i am|mera|naam|hai|ميرا|نام|ہے/gi, '').trim();
+                    if(friendName.length === 0) friendName = text;
+                    localStorage.setItem('aura_friend_name', friendName);
+                    updateUI();
+                    reply = `Bohat zabardast naam hai, ${friendName} bhai! Ab bata kya chal raha hai life mein?`;
                 }
-                // 3. Capabilities / What can you do
-                else if(lower.includes('tum kya kar sakto') || lower.includes('kya kar sakte ho') || lower.includes('what can you do') || lower.includes('capabilities')) {
-                    reply = `Boss ${ownerName}, main coding, text formatting, creative designing ideas, aur technical questions ke answers dene mein aapki puri help kar sakti hoon!`;
+                // 2. Halchal puchne par
+                else if(lower.includes('kaise ho') || lower.includes('kya hal hai') || lower.includes('kya haal hai') || lower.includes('sab theek')) {
+                    reply = `Main bilkul fit hoon yaar! Tu bata, tu kaisa hai aur din kaisa ja raha hai tera?`;
                 }
-                // 4. App / TikTok / Feature trigger handling
-                else if(lower.includes('tiktok') || lower.includes('app') || lower.includes('on karo') || lower.includes('chalao')) {
-                    reply = `Theek hai ${ownerName}, aapke is command par system process run ho raha hai. Agar aapko iska code ya specific function add karwana hai toh batayein!`;
+                // 3. Agar mazak ya gussa kare
+                else if(lower.includes('pagal') || lower.includes('drama') || lower.includes('bakwaas')) {
+                    reply = `Hahaha! Oye aise mat bol yaar, tera hi toh dost hoon. Bata kya scene hai?`;
                 }
-                // 5. Prompt Request
-                else if(lower.includes('prompt')) {
-                    reply = `Yeh lijiye ${ownerName}, aapke liye aik top-tier design prompt: "A cyberpunk streetwear apparel mockup with neon accents, highly detailed vector illustration, 8k."`;
-                }
-                // 6. Reset Command
-                else if(lower.includes('reset')) {
-                    localStorage.removeItem('aura_owner_name');
-                    ownerName = null;
-                    updateOwnerUI();
-                    reply = "Owner profile reset ho chuki hai. Naya naam batayein.";
-                } 
-                // 7. General Dynamic Response based on actual input keywords
+                // 4. Koi bhi aam sawal ya baat ho toh dosto ki tarah jawab
                 else {
-                    reply = `Boss ${ownerName}, aapka input "${text}" mil gaya hai. Is mamle mein behtareen tareeqa yeh hoga ke hum isko code ya proper logic ke zariye implement karein. Bataiye ispar mazeed kya karna hai?`;
+                    // Hum yahan user ke text ke hisaab se dostana response banayenge
+                    const friendReplies = [
+                        `Sahi keh raha hai yaar ${friendName}! Is baare mein socha jaye toh baat toh teri bilkul theek hai.`,
+                        `Acha sach mein? Phir kya kiya tune is par? Mujhe thoda aur bata na!`,
+                        `Wah yaar! Yeh toh tune bilkul lajawab baat ki hai.`,
+                        `Hmm, yeh bhi sahi hai. Waise tera is baare mein kya irada hai?`,
+                        `Sahi hai yaar! Main toh kehta hoon maze kar, itna tension mat le.`
+                    ];
+                    // Random dosto wala jawab chun lo taake har baar alag lage
+                    let randomIdx = Math.floor(Math.random() * friendReplies.length);
+                    reply = friendReplies[randomIdx];
                 }
 
                 appendMessage(reply, 'ai');
                 speakAura(reply);
-            }, 300);
+            }, 400);
         }
 
         function handleKey(e) { if(e.key === 'Enter') executeCommand(); }
 
         function quickAction(action) {
-            if(action === 'status') {
-                let r = `System Status: Aura v14 bilkul theek chal rahi hai, ${ownerName || 'Boss'}. Sabhi nodes active hain.`;
-                appendMessage(r, 'ai');
-                speakAura(r);
-            } else if(action === 'reset') {
-                localStorage.removeItem('aura_owner_name');
+            if(action === 'reset') {
+                localStorage.removeItem('aura_friend_name');
                 location.reload();
             }
         }
     </script>
 </body>
-              </html>
-  
+                                                                       </html>
+    
