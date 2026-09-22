@@ -6,13 +6,13 @@
     <title>AuraCore Pro - Neural Workstation</title>
     <style>
         :root {
-            --bg-color: #050b14;
-            --panel-bg: rgba(13, 20, 35, 0.9);
+            --bg-color: #040810;
+            --panel-bg: rgba(11, 18, 32, 0.92);
             --accent: #38bdf8;
-            --accent-glow: rgba(56, 189, 248, 0.3);
+            --accent-glow: rgba(56, 189, 248, 0.35);
             --text-main: #f3f4f6;
             --text-sub: #9ca3af;
-            --border-color: rgba(56, 189, 248, 0.15);
+            --border-color: rgba(56, 189, 248, 0.2);
         }
         * { box-sizing: border-box; }
         body {
@@ -20,32 +20,32 @@
             background-color: var(--bg-color);
             color: var(--text-main);
             margin: 0;
-            padding: 10px;
+            padding: 12px;
             min-height: 100vh;
-            background-image: radial-gradient(circle at 50% 20%, #0f172a 0%, #050b14 90%);
+            background-image: radial-gradient(circle at 50% 15%, #0f172a 0%, #040810 90%);
         }
 
-        /* Top Header Bar */
         .top-bar {
             display: flex;
             justify-content: space-between;
             align-items: center;
             background: var(--panel-bg);
             border: 1px solid var(--border-color);
-            padding: 10px 20px;
-            border-radius: 12px;
+            padding: 12px 20px;
+            border-radius: 14px;
             margin-bottom: 12px;
-            backdrop-filter: blur(10px);
+            backdrop-filter: blur(12px);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.5);
         }
-        .brand { display: flex; align-items: center; gap: 10px; font-weight: bold; color: var(--accent); font-size: 15px; }
-        .dot { width: 8px; height: 8px; background: #22c55e; border-radius: 50%; box-shadow: 0 0 10px #22c55e; }
+        .brand { display: flex; align-items: center; gap: 10px; font-weight: bold; color: var(--accent); font-size: 16px; letter-spacing: 0.5px; }
+        .dot { width: 9px; height: 9px; background: #22c55e; border-radius: 50%; box-shadow: 0 0 12px #22c55e; }
 
-        /* Desktop Multi-Column Grid Layout (Jaise Laptop me hai) */
+        /* Desktop Grid Layout */
         .workspace-grid {
             display: grid;
             grid-template-columns: 280px 1fr 300px;
-            gap: 12px;
-            max-width: 1400px;
+            gap: 14px;
+            max-width: 1450px;
             margin: 0 auto;
         }
         @media(max-width: 1024px) {
@@ -55,140 +55,187 @@
         .panel {
             background: var(--panel-bg);
             border: 1px solid var(--border-color);
-            border-radius: 14px;
-            padding: 14px;
+            border-radius: 16px;
+            padding: 16px;
             display: flex;
             flex-direction: column;
             gap: 12px;
-            backdrop-filter: blur(12px);
-            box-shadow: 0 8px 25px rgba(0,0,0,0.4);
+            backdrop-filter: blur(14px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
         }
-        .panel-title { font-size: 13px; font-weight: 600; color: var(--accent); margin: 0; text-transform: uppercase; letter-spacing: 0.5px; }
+        .panel-title { font-size: 13px; font-weight: 700; color: var(--accent); margin: 0; text-transform: uppercase; letter-spacing: 0.8px; }
 
-        /* Left Side Stats & Quick Tools */
         .stat-box {
-            background: rgba(0,0,0,0.4);
-            border: 1px solid rgba(255,255,255,0.05);
-            padding: 10px;
-            border-radius: 8px;
+            background: rgba(0,0,0,0.45);
+            border: 1px solid rgba(255,255,255,0.06);
+            padding: 10px 12px;
+            border-radius: 10px;
             font-size: 12px;
         }
         .stat-box span { color: var(--accent); font-weight: bold; }
 
-        /* Center Neural Screen / Canvas */
+        /* Center Neural Screen */
         .main-screen {
-            height: 240px;
+            height: 220px;
             background: #020408;
-            border-radius: 10px;
+            border-radius: 12px;
             position: relative;
             overflow: hidden;
-            border: 1px solid rgba(56, 189, 248, 0.2);
+            border: 1px solid rgba(56, 189, 248, 0.25);
             display: flex;
             align-items: center;
             justify-content: center;
         }
         canvas { width: 100%; height: 100%; position: absolute; top:0; left:0; }
 
-        /* Chat / Command Stream */
+        /* Chat Stream */
         .chat-container {
             flex: 1;
-            height: 250px;
+            height: 260px;
             overflow-y: auto;
-            background: rgba(2, 4, 8, 0.6);
-            border-radius: 10px;
-            padding: 10px;
+            background: rgba(2, 4, 8, 0.7);
+            border-radius: 12px;
+            padding: 12px;
             display: flex;
             flex-direction: column;
-            gap: 8px;
-            border: 1px solid rgba(255,255,255,0.05);
+            gap: 10px;
+            border: 1px solid rgba(255,255,255,0.06);
         }
-        .message { padding: 8px 12px; border-radius: 8px; font-size: 12px; line-height: 1.4; max-width: 90%; }
-        .message.ai { background: rgba(56, 189, 248, 0.1); color: var(--accent); border-left: 2px solid var(--accent); }
-        .message.user { background: rgba(99, 102, 241, 0.15); color: #e0e7ff; align-self: flex-end; border-right: 2px solid #6366f1; }
+        .message { padding: 10px 14px; border-radius: 10px; font-size: 13px; line-height: 1.5; max-width: 90%; }
+        .message.ai { background: rgba(56, 189, 248, 0.12); color: var(--accent); border-left: 3px solid var(--accent); }
+        .message.user { background: rgba(99, 102, 241, 0.18); color: #e0e7ff; align-self: flex-end; border-right: 3px solid #6366f1; }
 
-        /* Controls */
+        /* Control Panel with Fancy Mic Icon */
         .control-panel {
             display: flex;
-            gap: 8px;
+            gap: 10px;
+            align-items: center;
         }
         .control-panel input {
             flex: 1;
-            background: rgba(0,0,0,0.5);
+            background: rgba(0,0,0,0.6);
             border: 1px solid var(--border-color);
-            padding: 10px;
-            border-radius: 8px;
+            padding: 12px 14px;
+            border-radius: 10px;
             color: #fff;
             outline: none;
             font-size: 13px;
         }
-        .control-panel button {
+        .control-panel input:focus { border-color: var(--accent); }
+        
+        .mic-btn {
             background: linear-gradient(135deg, #38bdf8, #2563eb);
             color: #fff;
             border: none;
-            padding: 0 16px;
-            border-radius: 8px;
+            width: 46px;
+            height: 46px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 0 15px var(--accent-glow);
+            transition: 0.3s;
+            font-size: 18px;
+            flex-shrink: 0;
+        }
+        .mic-btn.listening {
+            background: linear-gradient(135deg, #ef4444, #dc2626) !important;
+            box-shadow: 0 0 25px rgba(239, 68, 68, 0.8);
+            animation: micPulse 1.2s infinite;
+        }
+        @keyframes micPulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.12); }
+            100% { transform: scale(1); }
+        }
+
+        .run-btn {
+            background: linear-gradient(135deg, #38bdf8, #2563eb);
+            color: #fff;
+            border: none;
+            padding: 12px 18px;
+            border-radius: 10px;
             font-weight: bold;
             cursor: pointer;
             font-size: 13px;
         }
-        .mic-active-btn {
-            background: linear-gradient(135deg, #ef4444, #dc2626) !important;
-            animation: pulse 1s infinite;
-        }
-        @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.6; } 100% { opacity: 1; } }
     </style>
 </head>
-<body>
+<body onload="initApp()">
 
     <div class="top-bar">
-        <div class="brand"><div class="dot"></div> AURACORE PRO WORKSTATION v4.0</div>
-        <div style="font-size: 11px; color: var(--text-sub);">User: Momen Shah | Mode: Executive Neural Link</div>
+        <div class="brand"><div class="dot"></div> AURACORE PRO WORKSTATION v5.0</div>
+        <div id="userDisplay" style="font-size: 12px; color: var(--text-sub);">User: Loading... | Mode: Smart AI Assistant</div>
     </div>
 
     <div class="workspace-grid">
         <div class="panel">
             <h3 class="panel-title">System Metrics</h3>
-            <div class="stat-box">CPU Efficiency: <span>99.8%</span></div>
-            <div class="stat-box">Active Neural Cores: <span>2,048 Nodes</span></div>
-            <div class="stat-box">Memory Allocation: <span>1.2 GB / 16 GB</span></div>
+            <div class="stat-box">AI Core Efficiency: <span>99.9%</span></div>
+            <div class="stat-box">Neural Matrix: <span>4,096 Nodes</span></div>
+            <div class="stat-box">Voice Engine: <span>Urdu / Hindi Neural</span></div>
             
-            <h3 class="panel-title" style="margin-top: 10px;">Quick Modules</h3>
-            <button onclick="runModule('captions')" style="background:rgba(56,189,248,0.1); border:1px solid var(--border-color); color:var(--accent); padding:8px; border-radius:6px; cursor:pointer; font-size:12px; text-align:left;">⚡ AI Caption Generator</button>
-            <button onclick="runModule('analytics')" style="background:rgba(56,189,248,0.1); border:1px solid var(--border-color); color:var(--accent); padding:8px; border-radius:6px; cursor:pointer; font-size:12px; text-align:left;">📊 Live Network Stats</button>
+            <h3 class="panel-title" style="margin-top: 10px;">Capabilities & Skills</h3>
+            <div style="font-size: 12px; color: var(--text-sub); line-height: 1.6;">
+                • **Voice Tasks:** Aap jo bolenge yeh likhega aur Urdu mein jawab dega.<br>
+                • **Automation:** Social media captions & analytics.<br>
+                • **Companion:** Normal friendly dost ki tarah baat karega.
+            </div>
         </div>
 
         <div class="panel">
             <h3 class="panel-title">Neural Node Matrix Display</h3>
             <div class="main-screen">
                 <canvas id="neuralCanvas"></canvas>
-                <div style="position:relative; z-index:2; font-size:11px; background:rgba(0,0,0,0.7); padding:3px 8px; border-radius:4px; color:var(--accent);">
-                    Live Visual Stream Active
+                <div style="position:relative; z-index:2; font-size:11px; background:rgba(0,0,0,0.75); padding:4px 10px; border-radius:6px; color:var(--accent);">
+                    Live Neural Stream Active
                 </div>
             </div>
 
             <h3 class="panel-title" style="margin-top:5px;">Command Terminal</h3>
             <div class="chat-container" id="chatStream">
-                <div class="message ai">AuraCore Pro initialized. Type a command or click the mic button to speak your instructions, Momen.</div>
+                <div class="message ai">Assalam-o-Alaikum! Main Aura hoon. Aapka kya naam hai?</div>
             </div>
 
             <div class="control-panel">
-                <button id="micBtn" onclick="toggleMic()" title="Voice Command">🎤</button>
-                <input type="text" id="userInput" placeholder="Ask Aura to execute any task..." onkeypress="handleKey(event)">
-                <button onclick="executeCommand()">Run</button>
+                <button id="micBtn" class="mic-btn" onclick="toggleMic()" title="Tap once to speak">🎙️</button>
+                <input type="text" id="userInput" placeholder="Yahan type karein ya mic dabayein..." onkeypress="handleKey(event)">
+                <button class="run-btn" onclick="executeCommand()">Bhejo</button>
             </div>
         </div>
 
         <div class="panel">
-            <h3 class="panel-title">Execution Logs</h3>
-            <div style="font-size: 11px; color: var(--text-sub); display:flex; flex-direction:column; gap:6px;">
-                <div style="background:rgba(0,0,0,0.3); padding:6px; border-radius:4px;">[15:35] Neural bridge secured.</div>
-                <div style="background:rgba(0,0,0,0.3); padding:6px; border-radius:4px;">[15:36] Speech synthesizer synced.</div>
-                <div style="background:rgba(0,0,0,0.3); padding:6px; border-radius:4px;">[15:37] Ready for live user inputs.</div>
+            <h3 class="panel-title">Live Activity Logs</h3>
+            <div style="font-size: 11px; color: var(--text-sub); display:flex; flex-direction:column; gap:8px;">
+                <div style="background:rgba(0,0,0,0.35); padding:8px; border-radius:6px;">[System] Speech engine online.</div>
+                <div style="background:rgba(0,0,0,0.35); padding:8px; border-radius:6px;">[Neural] One-tap voice sync active.</div>
+                <div style="background:rgba(0,0,0,0.35); padding:8px; border-radius:6px;">[Ready] Awaiting user instructions.</div>
             </div>
         </div>
     </div>
 
     <script>
+        let userName = localStorage.getItem('auracore_username') || null;
+
+        function initApp() {
+            if (!userName) {
+                // Agar naam saved nahi hai toh pehli bar puchega
+                speakUrdu("Assalam-o-Alaikum! Main Aura hoon. Aapka kya naam hai?");
+            } else {
+                updateUserUI();
+                let welcomeMsg = `Welcome back, ${userName}! Aaj main aapki kya madad karoon?`;
+                appendMessage(welcomeMsg, 'ai');
+                speakUrdu(welcomeMsg);
+            }
+        }
+
+        function updateUserUI() {
+            if(userName) {
+                document.getElementById('userDisplay').innerText = `User: ${userName} | Mode: Smart AI Assistant`;
+            }
+        }
+
         // Canvas Neural Animation
         const canvas = document.getElementById('neuralCanvas');
         const ctx = canvas.getContext('2d');
@@ -200,7 +247,7 @@
         resize();
 
         let nodes = [];
-        for(let i=0; i<30; i++) {
+        for(let i=0; i<35; i++) {
             nodes.push({ x: Math.random()*canvas.width, y: Math.random()*canvas.height, vx: (Math.random()-0.5)*1.2, vy: (Math.random()-0.5)*1.2 });
         }
 
@@ -215,7 +262,7 @@
                 ctx.beginPath(); ctx.arc(n.x, n.y, 2, 0, Math.PI*2); ctx.fill();
                 for(let j=idx+1; j<nodes.length; j++) {
                     let n2 = nodes[j];
-                    if(Math.hypot(n.x-n2.x, n.y-n2.y) < 80) {
+                    if(Math.hypot(n.x-n2.x, n.y-n2.y) < 85) {
                         ctx.beginPath(); ctx.moveTo(n.x, n.y); ctx.lineTo(n2.x, n2.y); ctx.stroke();
                     }
                 }
@@ -224,23 +271,24 @@
         }
         animate();
 
-        // Speech Synthesis (AI Voice Response)
-        function speak(text) {
+        // Urdu/Hindi Speech Synthesis
+        function speakUrdu(text) {
             if('speechSynthesis' in window) {
                 window.speechSynthesis.cancel();
                 let utterance = new SpeechSynthesisUtterance(text);
-                utterance.rate = 1.0;
+                utterance.lang = 'hi-IN'; // Hindi/Urdu voice support
+                utterance.rate = 0.95;
                 window.speechSynthesis.speak(utterance);
             }
         }
 
-        // Speech Recognition (Voice Input)
+        // One-Tap Voice Recognition
         let recognition;
         let listening = false;
         function toggleMic() {
             const btn = document.getElementById('micBtn');
             if(!('webkitSpeechRecognition' in window) && !('SpeechRecognition' in window)) {
-                alert("Speech recognition is not supported in this browser. Use Google Chrome.");
+                alert("Speech recognition is browser supported only in Google Chrome.");
                 return;
             }
             const SpeechRec = window.SpeechRecognition || window.webkitSpeechRecognition;
@@ -249,10 +297,13 @@
                 return;
             }
             recognition = new SpeechRec();
-            recognition.lang = 'en-US';
+            recognition.lang = 'hi-IN'; // Urdu/Hindi voice input
+            recognition.interimResults = false;
+            
             recognition.onstart = () => {
                 listening = true;
-                btn.classList.add('mic-active-btn');
+                btn.classList.add('listening');
+                btn.innerHTML = "🛑";
             };
             recognition.onresult = (e) => {
                 let text = e.results[0][0].transcript;
@@ -266,42 +317,50 @@
 
         function stopMic() {
             listening = false;
-            document.getElementById('micBtn').classList.remove('mic-active-btn');
+            document.getElementById('micBtn').classList.remove('listening');
+            document.getElementById('micBtn').innerHTML = "🎙️";
+        }
+
+        function appendMessage(text, sender) {
+            const stream = document.getElementById('chatStream');
+            stream.innerHTML += `<div class="message ${sender}">${text}</div>`;
+            stream.scrollTop = stream.scrollHeight;
         }
 
         function executeCommand(spokenText = null) {
             const input = document.getElementById('userInput');
-            const stream = document.getElementById('chatStream');
             const text = spokenText || input.value.trim();
             if(!text) return;
 
-            stream.innerHTML += `<div class="message user">${text}</div>`;
+            appendMessage(text, 'user');
             input.value = '';
-            stream.scrollTop = stream.scrollHeight;
 
             setTimeout(() => {
-                let reply = `Executed command: "${text}" successfully.`;
+                let reply = "";
                 let lower = text.toLowerCase();
-                if(lower.includes('hello') || lower.includes('hi')) {
-                    reply = "Hello Momen! All systems are online and fully optimized.";
+
+                if (!userName) {
+                    userName = text;
+                    localStorage.setItem('auracore_username', userName);
+                    updateUserUI();
+                    reply = `Bohat acha laga aapse mil kar, ${userName}! Ab bataiye, main aapke liye kya kaam kar sakta hoon?`;
+                } else if(lower.includes('kaise ho') || lower.includes('kya hal hai')) {
+                    reply = `Main bilkul theek hoon ${userName}! Aap sunayein, sab kaisa chal raha hai?`;
+                } else if(lower.includes('tum kya kar sakte ho') || lower.includes('kaam')) {
+                    reply = `${userName}, main aapke social media captions generate kar sakta hoon, live stats track kar sakta hoon, aur aapki har baat sun kar execute kar sakta hoon!`;
                 } else if(lower.includes('caption') || lower.includes('anime')) {
-                    reply = "Animeverse Caption Module activated: #AuraCore #EliteCode 🔥";
+                    reply = "Animeverse Caption Hub active: #AuraCore #NextGen #Elite 🔥";
+                } else {
+                    reply = `Aapka hukum sar aankhon par, ${userName}! "${text}" par processing shuru kar di gayi hai.`;
                 }
-                stream.innerHTML += `<div class="message ai">${reply}</div>`;
-                stream.scrollTop = stream.scrollHeight;
-                speak(reply);
-            }, 400);
+
+                appendMessage(reply, 'ai');
+                speakUrdu(reply);
+            }, 500);
         }
 
         function handleKey(e) { if(e.key === 'Enter') executeCommand(); }
-
-        function runModule(mod) {
-            const stream = document.getElementById('chatStream');
-            let msg = mod === 'captions' ? "AI Caption Generator loaded successfully." : "Live Network Stats synchronized.";
-            stream.innerHTML += `<div class="message ai">${msg}</div>`;
-            stream.scrollTop = stream.scrollHeight;
-            speak(msg);
-        }
     </script>
 </body>
-</html>
+                               </html>
+    
